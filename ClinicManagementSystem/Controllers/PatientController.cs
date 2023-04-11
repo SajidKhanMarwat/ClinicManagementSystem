@@ -96,8 +96,12 @@ namespace ClinicManagementSystem.Controllers
         //Create Appointment
         public JsonResult CreateAppointment(AppointmentsDetails model)
         {
-
+            //Getting DoctorID by comparing the UserID of particular Doctor in Doctor Table
+            var doctor = unitOfWork.DoctorRepository.GetAll().Where(u => u.UserID == model.DoctorID).FirstOrDefault();
             //Get Patient id as a User
+            var patient = unitOfWork.PatientRepository.GetAll().Where(u => u.UserID == int.Parse(Session["UserID"].ToString())).FirstOrDefault();
+
+
             var newAppointment = new Appointment()
             {
                 Title = model.Title,
@@ -106,8 +110,8 @@ namespace ClinicManagementSystem.Controllers
                 Appointment_DateTime = model.Appointment_DateTime,
                 PatientHistory = model.PatientHistory,
                 Status = Status.Pending.ToString(),
-                DoctorID = model.DoctorID,
-                PatientID = unitOfWork.PatientRepository.GetAll().Select(i => i.UserID).First(),
+                DoctorID = doctor.DoctorID,
+                PatientID = patient.PatientID,
             };
 
             unitOfWork.AppointmentRepository.AddNew(newAppointment);
