@@ -1,0 +1,360 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CMSdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="CMSEntitiesModel" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AppointmentComments" EntityType="CMSdbModel.AppointmentComment" />
+    <EntitySet Name="Appointments" EntityType="CMSdbModel.Appointment" />
+    <EntitySet Name="Doctors" EntityType="CMSdbModel.Doctor" />
+    <EntitySet Name="Patients" EntityType="CMSdbModel.Patient" />
+    <EntitySet Name="Payments" EntityType="CMSdbModel.Payment" />
+    <EntitySet Name="Permissions" EntityType="CMSdbModel.Permission" />
+    <EntitySet Name="Prescriptions" EntityType="CMSdbModel.Prescription" />
+    <EntitySet Name="Roles" EntityType="CMSdbModel.Role" />
+    <EntitySet Name="sysdiagrams" EntityType="CMSdbModel.sysdiagram" />
+    <EntitySet Name="User_Permissions" EntityType="CMSdbModel.User_Permissions" />
+    <EntitySet Name="Users" EntityType="CMSdbModel.User" />
+    <AssociationSet Name="FK_AppointmentComment_Appointments" Association="CMSdbModel.FK_AppointmentComment_Appointments">
+      <End Role="Appointment" EntitySet="Appointments" />
+      <End Role="AppointmentComment" EntitySet="AppointmentComments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Appointments_Doctors" Association="CMSdbModel.FK_Appointments_Doctors">
+      <End Role="Doctor" EntitySet="Doctors" />
+      <End Role="Appointment" EntitySet="Appointments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Appointments_Patients" Association="CMSdbModel.FK_Appointments_Patients">
+      <End Role="Patient" EntitySet="Patients" />
+      <End Role="Appointment" EntitySet="Appointments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Payments_Appointments" Association="CMSdbModel.FK_Payments_Appointments">
+      <End Role="Appointment" EntitySet="Appointments" />
+      <End Role="Payment" EntitySet="Payments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Prescriptions_Appointments" Association="CMSdbModel.FK_Prescriptions_Appointments">
+      <End Role="Appointment" EntitySet="Appointments" />
+      <End Role="Prescription" EntitySet="Prescriptions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Doctors_Users" Association="CMSdbModel.FK_Doctors_Users">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Doctor" EntitySet="Doctors" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Patients_Users" Association="CMSdbModel.FK_Patients_Users">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Patient" EntitySet="Patients" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Permissions_Permissions" Association="CMSdbModel.FK_User_Permissions_Permissions">
+      <End Role="Permission" EntitySet="Permissions" />
+      <End Role="User_Permissions" EntitySet="User_Permissions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Permissions_Roles" Association="CMSdbModel.FK_User_Permissions_Roles">
+      <End Role="Role" EntitySet="Roles" />
+      <End Role="User_Permissions" EntitySet="User_Permissions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Users_Roles" Association="CMSdbModel.FK_Users_Roles">
+      <End Role="Role" EntitySet="Roles" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="AppointmentComment">
+    <Key>
+      <PropertyRef Name="A_CommentID" />
+    </Key>
+    <Property Name="A_CommentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AppointmentID" Type="Int32" />
+    <Property Name="Titile" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+    <Property Name="IsPatientComment" Type="Boolean" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Appointment" Relationship="CMSdbModel.FK_AppointmentComment_Appointments" FromRole="AppointmentComment" ToRole="Appointment" />
+  </EntityType>
+  <EntityType Name="Appointment">
+    <Key>
+      <PropertyRef Name="AppointmentID" />
+    </Key>
+    <Property Name="AppointmentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DoctorID" Type="Int32" />
+    <Property Name="PatientID" Type="Int32" />
+    <Property Name="FeesPaid" Type="Int32" />
+    <Property Name="Appointment_DateTime" Type="DateTime" Precision="3" />
+    <Property Name="Title" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+    <Property Name="PatientHistory" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AppointmentComments" Relationship="CMSdbModel.FK_AppointmentComment_Appointments" FromRole="Appointment" ToRole="AppointmentComment" />
+    <NavigationProperty Name="Doctor" Relationship="CMSdbModel.FK_Appointments_Doctors" FromRole="Appointment" ToRole="Doctor" />
+    <NavigationProperty Name="Patient" Relationship="CMSdbModel.FK_Appointments_Patients" FromRole="Appointment" ToRole="Patient" />
+    <NavigationProperty Name="Payments" Relationship="CMSdbModel.FK_Payments_Appointments" FromRole="Appointment" ToRole="Payment" />
+    <NavigationProperty Name="Prescriptions" Relationship="CMSdbModel.FK_Prescriptions_Appointments" FromRole="Appointment" ToRole="Prescription" />
+  </EntityType>
+  <EntityType Name="Doctor">
+    <Key>
+      <PropertyRef Name="DoctorID" />
+    </Key>
+    <Property Name="DoctorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Education" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Specialization" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Experience" Type="Int32" />
+    <Property Name="ProfilePicture" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="Fees" Type="Int32" />
+    <Property Name="WorkingHours" Type="Int32" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="Int32" />
+    <NavigationProperty Name="Appointments" Relationship="CMSdbModel.FK_Appointments_Doctors" FromRole="Doctor" ToRole="Appointment" />
+    <NavigationProperty Name="User" Relationship="CMSdbModel.FK_Doctors_Users" FromRole="Doctor" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Patient">
+    <Key>
+      <PropertyRef Name="PatientID" />
+    </Key>
+    <Property Name="PatientID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Appointments" Relationship="CMSdbModel.FK_Appointments_Patients" FromRole="Patient" ToRole="Appointment" />
+    <NavigationProperty Name="User" Relationship="CMSdbModel.FK_Patients_Users" FromRole="Patient" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Payment">
+    <Key>
+      <PropertyRef Name="PaymentID" />
+    </Key>
+    <Property Name="PaymentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AppointmentID" Type="Int32" />
+    <Property Name="CardNumber" Type="Int32" />
+    <Property Name="Amount" Type="Int32" />
+    <Property Name="Date" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Appointment" Relationship="CMSdbModel.FK_Payments_Appointments" FromRole="Payment" ToRole="Appointment" />
+  </EntityType>
+  <EntityType Name="Permission">
+    <Key>
+      <PropertyRef Name="PermissionID" />
+    </Key>
+    <Property Name="PermissionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ActionName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="ActionDescription" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="0" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UpdatedOn" Type="DateTime" Precision="0" />
+    <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="User_Permissions" Relationship="CMSdbModel.FK_User_Permissions_Permissions" FromRole="Permission" ToRole="User_Permissions" />
+  </EntityType>
+  <EntityType Name="Prescription">
+    <Key>
+      <PropertyRef Name="PrescriptionID" />
+    </Key>
+    <Property Name="PrescriptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AppointmentID" Type="Int32" />
+    <Property Name="PatientHistory" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Medicines" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+    <Property Name="Usage" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="StartDate" Type="DateTime" Precision="3" />
+    <Property Name="EndDate" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Appointment" Relationship="CMSdbModel.FK_Prescriptions_Appointments" FromRole="Prescription" ToRole="Appointment" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="RoleID" />
+    </Key>
+    <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="0" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UpdatedOn" Type="DateTime" Precision="0" />
+    <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="User_Permissions" Relationship="CMSdbModel.FK_User_Permissions_Roles" FromRole="Role" ToRole="User_Permissions" />
+    <NavigationProperty Name="Users" Relationship="CMSdbModel.FK_Users_Roles" FromRole="Role" ToRole="User" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="User_Permissions">
+    <Key>
+      <PropertyRef Name="UserPermissionID" />
+    </Key>
+    <Property Name="UserPermissionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RoleID" Type="Int32" />
+    <Property Name="PermissionID" Type="Int32" />
+    <Property Name="IsAllowed" Type="Boolean" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="0" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UpdatedOn" Type="DateTime" Precision="0" />
+    <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Permission" Relationship="CMSdbModel.FK_User_Permissions_Permissions" FromRole="User_Permissions" ToRole="Permission" />
+    <NavigationProperty Name="Role" Relationship="CMSdbModel.FK_User_Permissions_Roles" FromRole="User_Permissions" ToRole="Role" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="Int32" />
+    <Property Name="Gender" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Age" Type="Int32" />
+    <Property Name="Address" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="0" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UpdatedOn" Type="DateTime" Precision="0" />
+    <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RoleID" Type="Int32" />
+    <NavigationProperty Name="Doctors" Relationship="CMSdbModel.FK_Doctors_Users" FromRole="User" ToRole="Doctor" />
+    <NavigationProperty Name="Patients" Relationship="CMSdbModel.FK_Patients_Users" FromRole="User" ToRole="Patient" />
+    <NavigationProperty Name="Role" Relationship="CMSdbModel.FK_Users_Roles" FromRole="User" ToRole="Role" />
+  </EntityType>
+  <Association Name="FK_AppointmentComment_Appointments">
+    <End Type="CMSdbModel.Appointment" Role="Appointment" Multiplicity="0..1" />
+    <End Type="CMSdbModel.AppointmentComment" Role="AppointmentComment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Appointment">
+        <PropertyRef Name="AppointmentID" />
+      </Principal>
+      <Dependent Role="AppointmentComment">
+        <PropertyRef Name="AppointmentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Appointments_Doctors">
+    <End Type="CMSdbModel.Doctor" Role="Doctor" Multiplicity="0..1" />
+    <End Type="CMSdbModel.Appointment" Role="Appointment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Doctor">
+        <PropertyRef Name="DoctorID" />
+      </Principal>
+      <Dependent Role="Appointment">
+        <PropertyRef Name="DoctorID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Appointments_Patients">
+    <End Type="CMSdbModel.Patient" Role="Patient" Multiplicity="0..1" />
+    <End Type="CMSdbModel.Appointment" Role="Appointment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Patient">
+        <PropertyRef Name="PatientID" />
+      </Principal>
+      <Dependent Role="Appointment">
+        <PropertyRef Name="PatientID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Payments_Appointments">
+    <End Type="CMSdbModel.Appointment" Role="Appointment" Multiplicity="0..1" />
+    <End Type="CMSdbModel.Payment" Role="Payment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Appointment">
+        <PropertyRef Name="AppointmentID" />
+      </Principal>
+      <Dependent Role="Payment">
+        <PropertyRef Name="AppointmentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Prescriptions_Appointments">
+    <End Type="CMSdbModel.Appointment" Role="Appointment" Multiplicity="0..1" />
+    <End Type="CMSdbModel.Prescription" Role="Prescription" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Appointment">
+        <PropertyRef Name="AppointmentID" />
+      </Principal>
+      <Dependent Role="Prescription">
+        <PropertyRef Name="AppointmentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Doctors_Users">
+    <End Type="CMSdbModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="CMSdbModel.Doctor" Role="Doctor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Doctor">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Patients_Users">
+    <End Type="CMSdbModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="CMSdbModel.Patient" Role="Patient" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Patient">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Permissions_Permissions">
+    <End Type="CMSdbModel.Permission" Role="Permission" Multiplicity="0..1" />
+    <End Type="CMSdbModel.User_Permissions" Role="User_Permissions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Permission">
+        <PropertyRef Name="PermissionID" />
+      </Principal>
+      <Dependent Role="User_Permissions">
+        <PropertyRef Name="PermissionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Permissions_Roles">
+    <End Type="CMSdbModel.Role" Role="Role" Multiplicity="0..1" />
+    <End Type="CMSdbModel.User_Permissions" Role="User_Permissions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="RoleID" />
+      </Principal>
+      <Dependent Role="User_Permissions">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Users_Roles">
+    <End Type="CMSdbModel.Role" Role="Role" Multiplicity="0..1" />
+    <End Type="CMSdbModel.User" Role="User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="RoleID" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

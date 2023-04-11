@@ -1,0 +1,115 @@
+﻿@model ClinicManagementSystem.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+
+<section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+        <div class="row justify-content-center align-items-center h-100">
+            <div class="col-12 col-lg-9">
+                <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                    <div class="card-body p-4 p-md-5">
+                        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))
+                        {
+                            <div class="row">
+                                @Html.AntiForgeryToken()
+                                <h4>Create new account.</h4>
+                                <hr />
+                                @Html.ValidationSummary("", new { @class = "text-danger" })
+                                <div class="col-md-6 mb-4">
+
+                                    <div class="form-outline">
+                                        @Html.TextBoxFor(fn => fn.FirstName, new { @class = "form-control form-control-lg" })
+                                        @Html.LabelFor(fn => fn.FirstName, new { @class = "col-md-6 form-label" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        @Html.TextBoxFor(ln => ln.LastName, new { @class = "form-control form-control-lg" })
+                                        @Html.LabelFor(ln => ln.LastName, new { @class = "col-md-6 form-label" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-lg" })
+                                        @Html.LabelFor(m => m.Email, new { @class = "col-md-6 form-label" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+
+                                    <div class="form-outline">
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-lg" })
+                                        @Html.LabelFor(m => m.Password, new { @class = "col-md-6 form-label" })
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        <input name="Age" type="number" class="form-control form-control-lg" />
+                                        @Html.LabelFor(a => a.Age, new { @class = "col-md-6 form-label" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <h6 class="mb-2 pb-1">Gender: </h6>
+
+                                    <div class="form-check form-check-inline form-outline">
+                                        Other:
+                                        @Html.RadioButtonFor(model => model.Gender, "Male", true)
+                                        Male:
+                                        @Html.RadioButtonFor(model => model.Gender, "Male")
+                                        Female:
+                                        @Html.RadioButtonFor(model => model.Gender, "Female")
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        @Html.TextBoxFor(ad => ad.Address, new { @class = "form-control form-control-lg" })
+                                        @Html.LabelFor(ad => ad.Address, new { @class = "col-md-6 form-label" })
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 pt-4 d-grid gap-2 col-6 mx-auto">
+                                    <button class="btn btn-primary btn-lg" type="submit">Register</button>
+                                </div>
+
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .gradient-custom {
+        /* fallback for old browsers */
+        /*background: #f093fb;*/
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: -webkit-linear-gradient(to bottom right, rgb(15 45 76), rgb(12 52 58));
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: linear-gradient(to bottom right, rgb(15 45 76), rgb(12 52 58))
+    }
+
+    .card-registration .select-input.form-control[readonly]:not([disabled]) {
+        font-size: 1rem;
+        line-height: 2.15;
+        padding-left: .75em;
+        padding-right: .75em;
+    }
+
+    .card-registration .select-arrow {
+        top: 13px;
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,24 @@
+﻿@{
+    //Layout = "~/Views/Admin/Index.cshtml";
+    Layout = null;
+}
+
+
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="navbar-nav navbar-right">
+            <li><a class="nav-item mx-0 mx-lg-1 py-3 px-0 px-lg-3 rounded" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        </ul>
+    }
+}
+else
+{
+    <ul class="navbar-nav navbar-right">
+        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-item mx-0 mx-lg-1 py-3 px-0 px-lg-3 rounded" })</li>
+        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "nav-item mx-0 mx-lg-1 py-3 px-0 px-lg-3 rounded" })</li>
+    </ul>
+}
