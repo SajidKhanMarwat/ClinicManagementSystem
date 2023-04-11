@@ -83,12 +83,18 @@ namespace ClinicManagementSystem.Controllers
                                      where u.Email == viewModel.Email && u.Password == viewModel.Password
                                      select new
                                      {
+                                         u.UserID,
                                          u.FirstName,
-                                         //u.LastName,
                                          r.Name
                                      };
 
-                FormsAuthentication.SetAuthCookie(currentUserRole.Where(name => name.FirstName != string.Empty).ToString(), false);
+                    var currentUserID = currentUserRole.FirstOrDefault()?.UserID;
+                    if (currentUserID.HasValue)
+                    {
+                        Session["UserID"] = currentUserID.Value.ToString();
+                    }
+
+                    FormsAuthentication.SetAuthCookie(currentUserRole.Where(name => name.FirstName != string.Empty).ToString(), false);
 
                     if (currentUserRole.Any(r => r.Name == userRoles.Admin.ToString()))
                     {

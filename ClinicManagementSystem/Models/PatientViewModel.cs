@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClinicManagementSystem.Repository.EntityModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -36,12 +37,21 @@ namespace ClinicManagementSystem.Models
 
     public class AppointmentsDetails
     {
+        private string _appointmentStatus = "Pending";
+
         public int FeesPaid { get; set; }
         public DateTime Appointment_DateTime { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string PatientHistory { get; set; }
-        public string Status { get; set; }
-        public int PatientUserID { get; set; }
+        public string Status
+        {
+            get { return _appointmentStatus; }
+            set
+            {
+                _appointmentStatus = value;
+            }
+        }
+        public int DoctorID { get; set; }
     }
 }

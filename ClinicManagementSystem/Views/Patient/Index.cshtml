@@ -111,34 +111,33 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form>
+
+                                                @* Appointment Creation Form *@
+                                                <form id="CreateAppointment" method='POST'>
                                                     <div class="mb-3">
-                                                        <input type="text" class="form-control" id="recipient-name" placeholder="Appointment Title" />
+                                                        <input name="Title" type="text" class="form-control" placeholder="Appointment Title" />
                                                     </div>
                                                     <div class="mb-3">
-                                                        <textarea class="form-control" id="message-text" placeholder="Description"></textarea>
+                                                        <textarea name="Description" class="form-control" placeholder="Description"></textarea>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <textarea class="form-control" id="message-text" placeholder="Patient History"></textarea>
+                                                        <textarea name="PatientHistory" class="form-control" placeholder="Patient History"></textarea>
                                                     </div>
 
                                                     <div class="mb-3">
-                                                        <select class="text-black" id="AvailableDoctors" onclick="DocList()">
-                                                            <option id="docOptions">Select Doctor</option>
+                                                        <input name="DoctorID" id="docID" style="display:none"/>
+                                                        <select name="DoctorSelect" class="text-black" id="AvailableDoctors" onclick="DocList()">
+                                                            <option id="dropDown">Select Doctor</option>
                                                         </select>
                                                     </div>
                                                     
                                                     <div class="mb-3">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                                            <label class="form-check-label text-black" for="flexCheckDefault">
-                                                                Fees Paid?
-                                                            </label>
-                                                        </div>
+                                                        <input name="FeesPaid" type="number" class="form-control" placeholder="Fees" />
                                                     </div>
+
                                                     <div class="mb-3">
                                                         <label for="date" class="col-1 col-form-label text-black">Date</label>
-                                                        <input id="startDate" class="form-control" type="date" />
+                                                        <input name="Appointment_DateTime" id="startDate" class="form-control" type="date" />
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="date" class="col-1 col-form-label text-black">Time</label>
@@ -146,9 +145,10 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Create</button>
+                                                        <button onclick="CreateAppointment()" type="submit" class="btn btn-primary">Create</button>
                                                     </div>
                                                 </form>
+
                                             </div>
                                         </div>
                                     </div>
@@ -269,17 +269,19 @@
                 $.each(data, function (i, item) {
                     rows += "<tr><td><div class='flex items-center'><div><p class='font-semibold text-black'>" + item.Title + "</p></div></div></td>" +
                         "<td><div class='flex items-center '><div><p class='font-semibold text-black'>" + item.CreatedOn + "</p></div></div></td>" +
-                        "<td><div class='flex items-center '><div><a href='/Admin/UserProfile/"+item.UserID+"' class='font-semibold link-primary'> Doctor Profile </p></div></div></td>";
+                        "<td><div class='flex items-center '><div><a href='/Admin/UserProfile/" + item.UserID + "' class='font-semibold link-primary'> Doctor Profile </p></div></div></td>";
 
-                        });
+                });
                 $("#table1 tbody").append(rows);
             }
         });
     }
 
 
+
     //Doctor DropDownList
     function DocList() {
+        
         $("#AvailableDoctors").empty();
         $.ajax({
             type: "GET",
@@ -288,11 +290,26 @@
             success: function (doctors) {
                 var list = "";
                 $.each(doctors, function (i, item) {
-                    list += "<option class='text-black'>" + item.FirstName+ " " + item.LastName + " > " + item.Specialization + "</option>";
+                    list += "<option id='" + item.UserID + "' class='text-black'>" + item.FirstName + " " + item.LastName + " " + "(" + item.Specialization + ")" + "</option>";
                 });
                 $("#AvailableDoctors").append(list);
             }
         });
     }
+
+
+    function CreateAppointment() {
+        debugger
+        docID = $('option:selected').attr("id");
+        $("#docID").val(docID);
+
+    // Appointment Creating
+        $.ajax({
+            url: '/Patient/CreateAppointment',
+            data: $('#CreateAppointment').serializeArray(),
+            type: 'POST',
+        });
+    }
+    
 
 </script>
