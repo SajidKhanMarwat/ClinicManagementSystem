@@ -16,6 +16,7 @@ namespace ClinicManagementSystem.Controllers
     {
         Pending,
         Accepted,
+        Completed,
         Declined
     }
 
@@ -35,19 +36,27 @@ namespace ClinicManagementSystem.Controllers
                 uID = int.Parse(Session["UserID"].ToString());
 
                 ////Getting all the Appointments of particular Patient.
-                var currentAppointments = (from a in unitOfWork.AppointmentRepository.GetAll()
-                                           join p in unitOfWork.PatientRepository.GetAll() on a.PatientID equals p.PatientID
-                                           where p.UserID == uID
-                                           select new
-                                           {
-                                               a.Title,
-                                               a.DoctorID,
-                                               a.CreatedOn,
-                                               a.Appointment_DateTime
-                                           }).ToList();
+                try
+                {
+                    var currentAppointments = (from a in unitOfWork.AppointmentRepository.GetAll()
+                                               join p in unitOfWork.PatientRepository.GetAll() on a.PatientID equals p.PatientID
+                                               where p.UserID == uID && a.Status == Status.Accepted.ToString()
+                                               select new GetCurrentAppointments
+                                               {
+                                                   Title = a.Title,
+                                                   DoctorID = (int)a.DoctorID,
+                                                   CreatedOn = a.CreatedOn.ToString(),
+                                                   Appointment_DateTime = a.Appointment_DateTime.ToString()
+                                               }).ToList();
 
-                ViewBag.CurrentAppointments = currentAppointments;
-                return View();
+                    ViewBag.CurrentAppointments = currentAppointments;
+                    return View();
+                }
+                catch (Exception)
+                {
+                    return View();
+                }
+
             }
             else
             {
@@ -60,9 +69,14 @@ namespace ClinicManagementSystem.Controllers
         //View Appointmnts Json Format
         public JsonResult MyAppointments()
         {
+            // Showing all the appointments except the 'Declined Appointments'
             var AllAppointments = (from appointment in unitOfWork.AppointmentRepository.GetAll()
                                 join doctor in unitOfWork.DoctorRepository.GetAll() on appointment.DoctorID equals doctor.DoctorID
                                 join user in unitOfWork.UserRepository.GetAll() on doctor.UserID equals user.UserID
+                                where user.UserID == uID && 
+                                appointment.Status == Status.Accepted.ToString() ||
+                                appointment.Status == Status.Completed.ToString() ||
+                                appointment.Status == Status.Pending.ToString()
                                 select new
                                 {
                                     appointment.Title,

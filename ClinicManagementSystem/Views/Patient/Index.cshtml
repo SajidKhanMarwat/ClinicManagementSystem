@@ -201,17 +201,17 @@
                                 <table class="w-full whitespace-no-wrap">
                                     <thead>
                                         <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                                            <th class="px-4 py-3">Name</th>
-                                            <th class="px-4 py-3">Date</th>
-                                            <th class="px-4 py-3">Time</th>
+                                            <th class="px-4 py-3">Title</th>
+                                            <th class="px-4 py-3">Created On</th>
+                                            <th class="px-4 py-3">DateTime</th>
                                             <th class="px-4 py-3">Doctor</th>
                                         </tr>
                                     </thead>
 
-                                    <!-- All Users List from Database -->
-                                    @*@if (ViewBag.CurrentAppointments != null)
-                                        {
-                                                foreach (var appointment in ViewBag.CurrentAppointments)
+                                     @* All Users List from Database *@ 
+                                    @if (ViewBag.CurrentAppointments != null)
+                                    {
+                                                foreach (var item in ViewBag.CurrentAppointments)
                                                  {
                                                   <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                                                       <tr class="text-gray-700 dark:text-gray-400">
@@ -219,20 +219,20 @@
                                                               <div class="flex items-center text-sm">
                                                                   <div>
                                                                       <p class="font-semibold">
-                                                                          @appointment.Title
+                                                                          @item.Title
                                                                       </p>
                                                                   </div>
                                                               </div>
                                                           </td>
                                                           <td class="px-4 py-3 text-sm">
-                                                              @appointment.CreatedOn
+                                                              @item.CreatedOn
                                                           </td>
                                                           <td class="px-4 py-3 text-sm">
-                                                              @appointment.Appointment_DateTime
+                                                              @item.Appointment_DateTime
                                                           </td>
 
                                                           <td class="px-4 py-3 text-sm">
-                                                              <button formaction=@Url.Action("UserProfile/"+appointment.DoctorID, "Admin") formmethod="post"
+                                                              <button formaction=@Url.Action("UserProfile/"+item.DoctorID, "Admin") formmethod="post"
                                                                       type="submit" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors
                                                                   duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600
                                                                   hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
@@ -242,7 +242,7 @@
                                                       </tr>
                                                   </tbody>
                                                 }
-                                        }*@
+                                    }
                                 </table>
                             </div>
                         </div>
