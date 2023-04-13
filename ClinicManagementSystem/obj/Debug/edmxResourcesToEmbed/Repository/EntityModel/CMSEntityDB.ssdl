@@ -101,8 +101,8 @@
     <Property Name="PatientHistory" Type="nvarchar" MaxLength="30" />
     <Property Name="Medicines" Type="nvarchar" MaxLength="40" />
     <Property Name="Usage" Type="nvarchar" MaxLength="30" />
-    <Property Name="StartDate" Type="datetime" />
-    <Property Name="EndDate" Type="datetime" />
+    <Property Name="StartDate" Type="datetime2" Precision="7" />
+    <Property Name="EndDate" Type="datetime2" Precision="7" />
     <Property Name="IsDeleted" Type="bit" />
     <Property Name="CreatedOn" Type="date" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="20" />

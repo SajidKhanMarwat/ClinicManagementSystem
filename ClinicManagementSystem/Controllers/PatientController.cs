@@ -42,6 +42,7 @@ namespace ClinicManagementSystem.Controllers
                                                }).ToList();
 
                     ViewBag.CurrentAppointments = currentAppointments;
+
                     return View();
                 }
                 catch (Exception)
@@ -61,21 +62,35 @@ namespace ClinicManagementSystem.Controllers
         //View Appointmnts Json Format
         public JsonResult MyAppointments()
         {
-            // Showing all the appointments except the 'Declined Appointments'
-            var AllAppointments = (from appointment in unitOfWork.AppointmentRepository.GetAll()
-                                join doctor in unitOfWork.DoctorRepository.GetAll() on appointment.DoctorID equals doctor.DoctorID
-                                join patient in unitOfWork.PatientRepository.GetAll() on appointment.PatientID equals patient.PatientID
-                                where appointment.PatientID == patient.PatientID 
-                                && patient.UserID == int.Parse(Session["UserID"].ToString())
-                                   select new
-                                   {
-                                       appointment.Title,
-                                       doctor.UserID,
-                                       appointment.CreatedOn
-                                   }).ToList();
-            return Json(AllAppointments, JsonRequestBehavior.AllowGet);
-        }
+            //// Showing all the appointments except the 'Declined Appointments'
+            //var AllAppointments = (from appointment in unitOfWork.AppointmentRepository.GetAll()
+            //                    join doctor in unitOfWork.DoctorRepository.GetAll() on appointment.DoctorID equals doctor.DoctorID
+            //                    join patient in unitOfWork.PatientRepository.GetAll() on appointment.PatientID equals patient.PatientID
+            //                    where appointment.PatientID == patient.PatientID &&
+            //                    patient.UserID == int.Parse(Session["UserID"].ToString())
+            //                       select new
+            //                       {
+            //                           appointment.Title,
+            //                           doctor.UserID,
+            //                           appointment.CreatedOn
+            //                       }).ToList();
 
+
+
+            var completedAppointments = (from appointment in unitOfWork.AppointmentRepository.GetAll()
+                                         join prescription in unitOfWork.PrescriptionRepository.GetAll() on appointment.AppointmentID equals prescription.AppointmentID
+                                         join patient in unitOfWork.PatientRepository.GetAll() on appointment.PatientID equals patient.PatientID
+                                         join user in unitOfWork.UserRepository.GetAll() on patient.UserID equals user.UserID
+                                         where appointment.PatientID == patient.PatientID
+                                         select new
+                                         {
+                                             appointment.Title,
+                                             prescription.Medicines,
+                                             prescription.Usage
+                                         }).ToList();
+
+            return Json(completedAppointments, JsonRequestBehavior.AllowGet);
+        }
 
 
         //Doctor Dropdown List (ajax)

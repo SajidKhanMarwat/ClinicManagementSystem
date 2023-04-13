@@ -125,12 +125,12 @@
                                                     </div>
 
                                                     <div class="mb-3">
-                                                        <input name="DoctorID" id="docID" style="display:none"/>
+                                                        <input name="DoctorID" id="docID" style="display:none" />
                                                         <select name="DoctorSelect" class="text-black" id="AvailableDoctors" onclick="DocList()">
                                                             <option id="dropDown">Select Doctor</option>
                                                         </select>
                                                     </div>
-                                                    
+
                                                     <div class="mb-3">
                                                         <input name="FeesPaid" type="number" class="form-control" placeholder="Fees" />
                                                     </div>
@@ -173,15 +173,12 @@
                                                     <thead id="appointmentsTable" class="table-dark">
                                                         <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                                                             <th class="px-4 py-3">Title</th>
-                                                            <th class="px-4 py-3">Date & Time</th>
+                                                            <th class="px-4 py-3">Medicines</th>
                                                             @*<th class="px-4 py-3">Prescription</th>*@
-                                                            <th class="px-4 py-3">Doctor</th>
+                                                            <th class="px-4 py-3">Usage</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-
-                                                        
-
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -193,7 +190,7 @@
 
                     </div>
 
-                    <!-- New Table -->
+                    <!-- Current Appointment Table -->
                     <h3 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">Current Appointments</h3>
                     <form>
                         <div class="w-full overflow-hidden rounded-lg shadow-xs">
@@ -208,40 +205,40 @@
                                         </tr>
                                     </thead>
 
-                                     @* All Users List from Database *@
+                                    @* All Users List from Database *@
                                     @if (ViewBag.CurrentAppointments != null)
                                     {
-                                                foreach (var item in ViewBag.CurrentAppointments)
-                                                 {
-                                                  <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                                                      <tr class="text-gray-700 dark:text-gray-400">
-                                                          <td class="px-4 py-3">
-                                                              <div class="flex items-center text-sm">
-                                                                  <div>
-                                                                      <p class="font-semibold">
-                                                                          @item.Title
-                                                                      </p>
-                                                                  </div>
-                                                              </div>
-                                                          </td>
-                                                          <td class="px-4 py-3 text-sm">
-                                                              @item.CreatedOn
-                                                          </td>
-                                                          <td class="px-4 py-3 text-sm">
-                                                              @item.Appointment_DateTime
-                                                          </td>
+                                        foreach (var item in ViewBag.CurrentAppointments)
+                                        {
+                                            <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                                                <tr class="text-gray-700 dark:text-gray-400">
+                                                    <td class="px-4 py-3">
+                                                        <div class="flex items-center text-sm">
+                                                            <div>
+                                                                <p class="font-semibold">
+                                                                    @item.Title
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-4 py-3 text-sm">
+                                                        @item.CreatedOn
+                                                    </td>
+                                                    <td class="px-4 py-3 text-sm">
+                                                        @item.Appointment_DateTime
+                                                    </td>
 
-                                                          <td class="px-4 py-3 text-sm">
-                                                              <button formaction=@Url.Action("UserProfile/"+item.DoctorID, "Admin") formmethod="post"
-                                                                      type="submit" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors
+                                                    <td class="px-4 py-3 text-sm">
+                                                        <button formaction=@Url.Action("UserProfile/"+item.DoctorID, "Admin") formmethod="post"
+                                                                type="submit" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors
                                                                   duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600
                                                                   hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                                                                  View Profile
-                                                              </button>
-                                                          </td>
-                                                      </tr>
-                                                  </tbody>
-                                                }
+                                                            View Profile
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        }
                                     }
                                 </table>
                             </div>
@@ -268,9 +265,8 @@
                 var rows = "";
                 $.each(data, function (i, item) {
                     rows += "<tr><td><div class='flex items-center'><div><p class='font-semibold text-black'>" + item.Title + "</p></div></div></td>" +
-                        "<td><div class='flex items-center '><div><p class='font-semibold text-black'>" + item.CreatedOn + "</p></div></div></td>" +
-                        "<td><div class='flex items-center '><div><a href='/Admin/UserProfile/" + item.UserID + "' class='font-semibold link-primary'> Doctor Profile </p></div></div></td>";
-
+                        "<td><div class='flex items-center '><div><p class='font-semibold text-black'>" + item.Medicines + "</p></div></div></td>" +
+                        "<td><div class='flex items-center '><div><a href='/Admin/UserProfile/" + item.Usage + "' class='font-semibold link-primary'> Doctor Profile </p></div></div></td>";
                 });
                 $("#table1 tbody").append(rows);
             }

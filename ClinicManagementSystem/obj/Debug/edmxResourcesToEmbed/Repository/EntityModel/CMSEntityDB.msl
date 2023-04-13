@@ -99,24 +99,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Prescriptions">
-      <EntityTypeMapping TypeName="CMSModel.Prescription">
-        <MappingFragment StoreEntitySet="Prescriptions">
-          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-          <ScalarProperty Name="Usage" ColumnName="Usage" />
-          <ScalarProperty Name="Medicines" ColumnName="Medicines" />
-          <ScalarProperty Name="PatientHistory" ColumnName="PatientHistory" />
-          <ScalarProperty Name="AppointmentID" ColumnName="AppointmentID" />
-          <ScalarProperty Name="PrescriptionID" ColumnName="PrescriptionID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Roles">
       <EntityTypeMapping TypeName="CMSModel.Role">
         <MappingFragment StoreEntitySet="Roles">
@@ -175,6 +157,24 @@
           <ScalarProperty Name="LastName" ColumnName="LastName" />
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="UserID" ColumnName="UserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Prescriptions">
+      <EntityTypeMapping TypeName="CMSModel.Prescription">
+        <MappingFragment StoreEntitySet="Prescriptions">
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="Usage" ColumnName="Usage" />
+          <ScalarProperty Name="Medicines" ColumnName="Medicines" />
+          <ScalarProperty Name="PatientHistory" ColumnName="PatientHistory" />
+          <ScalarProperty Name="AppointmentID" ColumnName="AppointmentID" />
+          <ScalarProperty Name="PrescriptionID" ColumnName="PrescriptionID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

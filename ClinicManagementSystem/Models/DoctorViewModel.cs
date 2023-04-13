@@ -29,4 +29,14 @@ namespace ClinicManagementSystem.Models
     //    public string Accepted { get; set; }
     //    public string Declined { get; set; }
     //}
+
+
+    public class CreatePrescription
+    {
+        public string Medicines { get; set; }
+        public int AppointmentID { get; set;}
+        public string Usage { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+    }
 }

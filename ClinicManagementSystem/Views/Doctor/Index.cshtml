@@ -94,7 +94,7 @@
                         Dashboard
                     </h2>
 
-                    <!-- Cards -->
+                    <!-- Total Appointments Count (Pending, Accepted) -->
                     <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
                         <!-- Card -->
                         <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
@@ -105,15 +105,6 @@
                                 </h4>
                             </div>
                         </div>
-
-                        <!-- Card -->
-                        @*<div class="card text-white bg-info mb-3" style="max-width: 18rem;">
-                            <div class="card-header"><h3>Patients</h3></div>
-                            <div class="card-body">
-                                <h4 class="card-title">43</h4>
-                            </div>
-                        </div>*@
-
                     </div>
 
                     <!-- New Appointments Table-->
@@ -136,46 +127,46 @@
                                     <!-- All Users List from Database -->
                                     @if (ViewBag.NewAppointments != null)
                                     {
-                                            foreach (var appointment in ViewBag.NewAppointments)
-                                             {
-                                              <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                                                  <tr class="text-gray-700 dark:text-gray-400">
-                                                      <td class="px-4 py-3">
-                                                          <p class="font-semibold">
-                                                              @appointment.FirstName &nbsp; @appointment.LastName
-                                                          </p>
-                                                      </td>
-                                                      <td class="px-4 py-3 text-sm">
-                                                          <p class="font-semibold">
-                                                              @appointment.Title
-                                                          </p>
-                                                      </td>
-                                                      <td class="px-4 py-3 text-sm">
-                                                          @appointment.Description
-                                                      </td>
-                                                      <td class="px-4 py-3 text-sm">
-                                                          @appointment.PatientHistory
-                                                      </td>
-                                                      <td class="px-4 py-3 text-sm">
-                                                          @appointment.Appointment_DateTime
-                                                      </td>
+                                        foreach (var appointment in ViewBag.NewAppointments)
+                                        {
+                                            <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                                                <tr class="text-gray-700 dark:text-gray-400">
+                                                    <td class="px-4 py-3">
+                                                        <p class="font-semibold">
+                                                            @appointment.FirstName &nbsp; @appointment.LastName
+                                                        </p>
+                                                    </td>
+                                                    <td class="px-4 py-3 text-sm">
+                                                        <p class="font-semibold">
+                                                            @appointment.Title
+                                                        </p>
+                                                    </td>
+                                                    <td class="px-4 py-3 text-sm">
+                                                        @appointment.Description
+                                                    </td>
+                                                    <td class="px-4 py-3 text-sm">
+                                                        @appointment.PatientHistory
+                                                    </td>
+                                                    <td class="px-4 py-3 text-sm">
+                                                        @appointment.Appointment_DateTime
+                                                    </td>
 
-                                                      <td class="px-4 py-3 text-sm">
-                                                          <button onclick="Accepted(@appointment.ApID)" id="accepted" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors
+                                                    <td class="px-4 py-3 text-sm">
+                                                        <button onclick="Accepted(@appointment.ApID)" id="accepted" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors
                                                                          duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-purple-600
                                                                          hover:bg-blue-700 focus:outline-none focus:shadow-outline-purple">
-                                                              Accept
-                                                          </button>
-                                                          
-                                                          <button onclick="Declined(@appointment.ApID)" id="declined" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors
+                                                            Accept
+                                                        </button>
+
+                                                        <button onclick="Declined(@appointment.ApID)" id="declined" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors
                                                                          duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600
                                                                          hover:bg-red-700 focus:outline-none focus:shadow-outline-purple">
-                                                              Decline
-                                                          </button>
-                                                      </td>
-                                                  </tr>
-                                              </tbody>
-                                            }
+                                                            Decline
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        }
                                     }
                                 </table>
                             </div>
@@ -185,65 +176,117 @@
 
                     <!-- Ongoing Appointments Table-->
                     <h3 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">Current Appointments</h3>
-                    <form>
-                        <div class="w-full overflow-hidden rounded-lg shadow-xs">
-                            <div class="w-full overflow-x-auto">
-                                <table class="w-full whitespace-no-wrap">
-                                    <thead>
-                                        <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                                            <th class="px-4 py-3">Patient Name</th>
-                                            <th class="px-4 py-3">Title</th>
-                                            <th class="px-4 py-3">Description</th>
-                                            <th class="px-4 py-3">Patient History</th>
-                                            <th class="px-4 py-3">Appointment DateTime</th>
-                                        </tr>
-                                    </thead>
+                    @if (ViewBag.CurrentAppointments != null)
+                    {
+                        foreach (var appointment in ViewBag.CurrentAppointments)
+                        {
+                            <form>
+                                <div class="w-full overflow-hidden rounded-lg shadow-xs">
+                                    <div class="w-full overflow-x-auto">
+                                        <table class="w-full whitespace-no-wrap">
+                                            <thead>
+                                                <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                                                    <th class="px-4 py-3">Patient Name</th>
+                                                    <th class="px-4 py-3">Title</th>
+                                                    <th class="px-4 py-3">Description</th>
+                                                    <th class="px-4 py-3">Patient History</th>
+                                                    <th class="px-4 py-3">Appointment DateTime</th>
+                                                </tr>
+                                            </thead>
 
-                                    <!-- All Users List from Database -->
-                                    @if (ViewBag.CurrentAppointments != null)
-                                            {
-                                                    foreach (var appointment in ViewBag.CurrentAppointments)
-                                                     {
-                                                      <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                                                          <tr class="text-gray-700 dark:text-gray-400">
-                                                              <td class="px-4 py-3">
-                                                                  <p class="font-semibold">
-                                                                      @appointment.FirstName &nbsp; @appointment.LastName
-                                                                  </p>
-                                                              </td>
-                                                              <td class="px-4 py-3 text-sm">
-                                                                  <p class="font-semibold">
-                                                                      @appointment.Title
-                                                                  </p>
-                                                              </td>
-                                                              <td class="px-4 py-3 text-sm">
-                                                                  @appointment.Description
-                                                              </td>
-                                                              <td class="px-4 py-3 text-sm">
-                                                                  @appointment.PatientHistory
-                                                              </td>
-                                                              <td class="px-4 py-3 text-sm">
-                                                                  @appointment.Appointment_DateTime
-                                                              </td>
+                                            <!-- All Users List from Database -->
 
-                                                              <td class="px-4 py-3 text-sm">
-                                                                  <button formaction=@Url.Action("UserProfile/"+appointment.PatientID, "Admin") formmethod="post"
-                                                                          type="submit" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors
+                                            <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                                                <tr class="text-gray-700 dark:text-gray-400">
+                                                    <td class="px-4 py-3">
+                                                        <p class="font-semibold">
+                                                            @appointment.FirstName &nbsp; @appointment.LastName
+                                                        </p>
+                                                    </td>
+                                                    <td class="px-4 py-3 text-sm">
+                                                        <p class="font-semibold">
+                                                            @appointment.Title
+                                                        </p>
+                                                    </td>
+                                                    <td class="px-4 py-3 text-sm">
+                                                        @appointment.Description
+                                                    </td>
+                                                    <td class="px-4 py-3 text-sm">
+                                                        @appointment.PatientHistory
+                                                    </td>
+                                                    <td class="px-4 py-3 text-sm">
+                                                        @appointment.Appointment_DateTime
+                                                    </td>
+
+                                                    <td class="px-4 py-3 text-sm">
+                                                        <button formaction=@Url.Action("UserProfile/"+appointment.PatientID, "Admin") formmethod="post"
+                                                                type="submit" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors
                                                                       duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600
                                                                       hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                                                                      View Profile
-                                                                  </button>
-                                                              </td>
-                                                          </tr>
-                                                      </tbody>
-                                                    }
-                                            }
-                                </table>
+                                                            View Profile
+                                                        </button>
+                                                    </td>
+                                                    <!-- Create Prescription -->
+                                                    <td class="px-4 py-3 text-sm">
+                                                        <div class="card-body">
+                                                            <button id="createPrescriptionBtn" class="btn bg-success text-white btn-lg" type="button"
+                                                                    data-bs-toggle="modal" data-bs-target="#createPrescription" data-bs-whatever="@@mdo">
+                                                                Write Prescription
+                                                            </button>
+
+
+
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            
+                                        </table>
+                                    </div>
+                                </div>
+                            </form>
+
+
+                            <!-- Here is the Card Body -->
+                            <div class="modal fade" id="createPrescription" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            @* Prescription Form *@
+                                            <form id="CreatePrescription" method='POST'>
+                                                <div class="mb-3">
+                                                    <textarea name="Medicines" class="form-control" placeholder="Medicines"></textarea>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <textarea name="Usage" class="form-control" placeholder="Usage"></textarea>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="date" class="col-1 col-form-label text-black">StartDate</label>
+                                                    <input name="StartDate" id="startDate" class="form-control" type="date" />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="date" class="col-1 col-form-label text-black">EndDate</label>
+                                                    <input name="EndDate" id="endDate" class="form-control" type="date" />
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <input type="hidden" name="AppointmentId" id="AppointmentId" value="@appointment.ApID" />
+                                                    <button onclick="CreatePrescription()" type="submit" class="btn btn-primary">Create</button>
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </form>
 
-
+                        }
+                    }
                 </div>
             </main>
         </div>
@@ -258,33 +301,64 @@
     //Appointment Accepted
     function Accepted(apId) {
         var id = apId;
-        debugger
         $.ajax({
             url: '/Doctor/Accepted/'+id,
             data: { apId: id },
             type: 'POST',
             success: function (result) {
-                debugger
-                alert("Accepted")
+                alert("Updated Successfully")
             }
         });
     }
 
 
     //Appointment Declined
-    function Declined(apId) {
+    function Declined(apId)
+    {
         var id = apId;
-        debugger
-        $.ajax({
+        $.ajax(
+            {
             url: '/Doctor/Declined/'+id,
             data: { apId: id },
             type: 'POST',
-            success: function (result) {
-                debugger
-    alert("Declined")
+                success: function (result)
+                
+            {
+                alert("Updated Successfully")
             }
         });
     }
 
+    //Appointment Completed > when prescription is created
+    function Completed(appointmentID) {
+        var id = appointmentID;
+        debugger
+        $.ajax(
+            {
+                url: '/Doctor/Completed/' + id,
+                data: { apId: id },
+                type: 'POST',
+                success: function (result) {
+                    alert("Successful")
+                }
+            });
+    }
+
+    //Prescription Create
+    function CreatePrescription()
+    {
+        var formData = $('#CreatePrescription').serialize();
+        $.ajax(
+            {
+            type: 'POST',
+            url: '/Doctor/Prescription',
+            data: formData,
+            success: function (response)
+            {
+                debugger
+                Completed($("#AppointmentId").val());
+            }
+        });
+    }
 
 </script>

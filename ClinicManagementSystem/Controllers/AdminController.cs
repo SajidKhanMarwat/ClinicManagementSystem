@@ -9,11 +9,11 @@ using System.Web.Mvc;
 
 namespace ClinicManagementSystem.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         private UnitOfWork unitOfWork = new UnitOfWork();
 
-       [Authorize]
         // GET: Admin
         public ActionResult Index()
         {
