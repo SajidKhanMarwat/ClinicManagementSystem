@@ -266,7 +266,7 @@
                 $.each(data, function (i, item) {
                     rows += "<tr><td><div class='flex items-center'><div><p class='font-semibold text-black'>" + item.Title + "</p></div></div></td>" +
                         "<td><div class='flex items-center '><div><p class='font-semibold text-black'>" + item.Medicines + "</p></div></div></td>" +
-                        "<td><div class='flex items-center '><div><a href='/Admin/UserProfile/" + item.Usage + "' class='font-semibold link-primary'> Doctor Profile </p></div></div></td>";
+                        "<td><div class='flex items-center '><div><p class='font-semibold text-black'>" + item.Usage + "</p ></div ></div ></td >";
                 });
                 $("#table1 tbody").append(rows);
             }

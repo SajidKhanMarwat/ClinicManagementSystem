@@ -81,7 +81,7 @@ namespace ClinicManagementSystem.Controllers
                                          join prescription in unitOfWork.PrescriptionRepository.GetAll() on appointment.AppointmentID equals prescription.AppointmentID
                                          join patient in unitOfWork.PatientRepository.GetAll() on appointment.PatientID equals patient.PatientID
                                          join user in unitOfWork.UserRepository.GetAll() on patient.UserID equals user.UserID
-                                         where appointment.PatientID == patient.PatientID
+                                         where appointment.PatientID == int.Parse(Session["UserID"].ToString())
                                          select new
                                          {
                                              appointment.Title,
