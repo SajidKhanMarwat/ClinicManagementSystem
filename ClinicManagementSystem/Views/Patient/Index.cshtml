@@ -208,7 +208,7 @@
                                         </tr>
                                     </thead>
 
-                                     @* All Users List from Database *@ 
+                                     @* All Users List from Database *@
                                     @if (ViewBag.CurrentAppointments != null)
                                     {
                                                 foreach (var item in ViewBag.CurrentAppointments)
@@ -297,13 +297,11 @@
         });
     }
 
-
+    // Appointment Creating
     function CreateAppointment() {
-        debugger
         docID = $('option:selected').attr("id");
         $("#docID").val(docID);
 
-    // Appointment Creating
         $.ajax({
             url: '/Patient/CreateAppointment',
             data: $('#CreateAppointment').serializeArray(),

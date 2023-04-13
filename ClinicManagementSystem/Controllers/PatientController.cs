@@ -1,18 +1,13 @@
 ﻿using ClinicManagementSystem.Models;
 using ClinicManagementSystem.Repository;
 using ClinicManagementSystem.Repository.EntityModel;
-using Microsoft.Ajax.Utilities;
-using Microsoft.AspNet.Identity;
 using System;
-using System.IdentityModel.Claims;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Mvc;
-using System.Web.Security;
 
 namespace ClinicManagementSystem.Controllers
 {    
-    enum Status
+    public enum AppointmentStatus
     {
         Pending,
         Accepted,
@@ -20,12 +15,10 @@ namespace ClinicManagementSystem.Controllers
         Declined
     }
 
-    
+    [Authorize]
     public class PatientController : Controller
     {
         UnitOfWork unitOfWork = new UnitOfWork();
-        int uID;
-
 
 
         // GET: Patient
@@ -33,14 +26,13 @@ namespace ClinicManagementSystem.Controllers
         {
             if (Request.IsAuthenticated)
             {
-                uID = int.Parse(Session["UserID"].ToString());
 
                 ////Getting all the Appointments of particular Patient.
                 try
                 {
                     var currentAppointments = (from a in unitOfWork.AppointmentRepository.GetAll()
                                                join p in unitOfWork.PatientRepository.GetAll() on a.PatientID equals p.PatientID
-                                               where p.UserID == uID && a.Status == Status.Accepted.ToString()
+                                               where p.UserID == int.Parse(Session["UserID"].ToString()) && a.Status == AppointmentStatus.Accepted.ToString()
                                                select new GetCurrentAppointments
                                                {
                                                    Title = a.Title,
@@ -72,17 +64,15 @@ namespace ClinicManagementSystem.Controllers
             // Showing all the appointments except the 'Declined Appointments'
             var AllAppointments = (from appointment in unitOfWork.AppointmentRepository.GetAll()
                                 join doctor in unitOfWork.DoctorRepository.GetAll() on appointment.DoctorID equals doctor.DoctorID
-                                join user in unitOfWork.UserRepository.GetAll() on doctor.UserID equals user.UserID
-                                where user.UserID == uID && 
-                                appointment.Status == Status.Accepted.ToString() ||
-                                appointment.Status == Status.Completed.ToString() ||
-                                appointment.Status == Status.Pending.ToString()
-                                select new
-                                {
-                                    appointment.Title,
-                                    user.UserID,
-                                    appointment.CreatedOn,
-                                }).ToList();
+                                join patient in unitOfWork.PatientRepository.GetAll() on appointment.PatientID equals patient.PatientID
+                                where appointment.PatientID == patient.PatientID 
+                                && patient.UserID == int.Parse(Session["UserID"].ToString())
+                                   select new
+                                   {
+                                       appointment.Title,
+                                       doctor.UserID,
+                                       appointment.CreatedOn
+                                   }).ToList();
             return Json(AllAppointments, JsonRequestBehavior.AllowGet);
         }
 
@@ -123,7 +113,7 @@ namespace ClinicManagementSystem.Controllers
                 FeesPaid = model.FeesPaid,
                 Appointment_DateTime = model.Appointment_DateTime,
                 PatientHistory = model.PatientHistory,
-                Status = Status.Pending.ToString(),
+                Status = AppointmentStatus.Pending.ToString(),
                 DoctorID = doctor.DoctorID,
                 PatientID = patient.PatientID,
             };

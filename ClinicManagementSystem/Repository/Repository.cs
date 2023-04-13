@@ -1,8 +1,10 @@
-﻿using ClinicManagementSystem.Repository.EntityModel;
+﻿using ClinicManagementSystem.Controllers;
+using ClinicManagementSystem.Repository.EntityModel;
 using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
 
@@ -55,7 +57,8 @@ namespace ClinicManagementSystem.Repository
 
         public void Update(T entity)
         {
-            throw new NotImplementedException();
+            _cmsEntities.Set<T>().AddOrUpdate(entity);
+            _cmsEntities.SaveChanges();
         }
     }
 }
