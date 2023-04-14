@@ -76,12 +76,11 @@ namespace ClinicManagementSystem.Controllers
             //                       }).ToList();
 
 
-
+            // Show only completed appointments
             var completedAppointments = (from appointment in unitOfWork.AppointmentRepository.GetAll()
                                          join prescription in unitOfWork.PrescriptionRepository.GetAll() on appointment.AppointmentID equals prescription.AppointmentID
                                          join patient in unitOfWork.PatientRepository.GetAll() on appointment.PatientID equals patient.PatientID
-                                         join user in unitOfWork.UserRepository.GetAll() on patient.UserID equals user.UserID
-                                         where appointment.PatientID == int.Parse(Session["UserID"].ToString())
+                                         where patient.UserID == int.Parse(Session["UserID"].ToString())
                                          select new
                                          {
                                              appointment.Title,
