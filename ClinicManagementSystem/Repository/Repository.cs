@@ -32,7 +32,10 @@ namespace ClinicManagementSystem.Repository
 
         public void Delete(int id)
         {
-            _cmsEntities.Set<T>().Remove(GetById(id));
+            //_cmsEntities.Set<T>().Remove(GetById(id)); // This will delete the user completely which is not recommended.
+                       
+            _cmsEntities.Set<T>().AddOrUpdate(GetById(id)); // This will change the 'IsDeleted' to 1, which means the user is deleted. But in reality the user will be available but not active.            
+            _cmsEntities.SaveChanges();
         }
 
         //Get All Users From Database

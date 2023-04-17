@@ -44,30 +44,32 @@
                         </a>
                     </li>
                 </ul>
-                @*<div class="px-6 my-6">
-                    <button class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                        Add Admin/Doctor
-                        <span class="ml-2" aria-hidden="true">+</span>
+                <div class="px-6 my-6">
+                    <button type="button" value="Add New Doctor" onclick="location.href='@Url.Action("AddDoctor", "Admin")'" class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                    Add New Doctor
+                    <span class="ml-2" aria-hidden="true">+</span>
                     </button>
-                </div>*@
+                </div>
             </div>
         </aside>
 
         <div class="flex flex-col flex-1 w-full">
             <header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
                 <div class="container flex items-center justify-between h-full px-6 mx-auto text-purple-600 dark:text-purple-300">
-                    <ul class="flex items-center justify-center flex-1 lg:mr-32 flex-shrink-0 space-x-6">
+                    <ul class="flex items-center flex-1 lg:mr-32 flex-shrink-0 space-x-6">
                         <!-- Profile menu -->
+                        
                         <li class="relative">
                             <button class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
                                     @@click="toggleProfileMenu"
                                     @@keydown.escape="closeProfileMenu"
                                     aria-label="Account"
                                     aria-haspopup="true">
-                                <img class="object-cover w-8 h-8 rounded-full"
-                                     src="https://images.unsplash.com/photo-1502378735452-bc7d86632805?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=aa3a807e1bbdfd4364d1f449eaa96d82"
-                                     alt=""
-                                     aria-hidden="true" />
+                                <b>@ViewBag.User.FirstName @ViewBag.User.LastName</b>
+                                @*<img class="object-cover w-8 h-8 rounded-full"
+        src="https://images.unsplash.com/photo-1502378735452-bc7d86632805?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=aa3a807e1bbdfd4364d1f449eaa96d82"
+        alt=""
+        aria-hidden="true" />*@
                             </button>
                             <template x-if="isProfileMenuOpen">
                                 <ul x-transition:leave="transition ease-in duration-150"
@@ -79,14 +81,6 @@
                                     aria-label="submenu">
 
                                     @Html.Partial("_portalLogOUT")
-
-                                    @*<li class="flex">
-                    <a class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                       href="javascript:document.getElementById('logoutForm').submit()">
-                        <span>Log out</span>
-                    </a>
-                </li>*@
-
 
                                 </ul>
                             </template>
@@ -131,7 +125,7 @@
                                     Total Appointments
                                 </p>
                                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                                    @ViewBag.totalAppointments
+                                    @ViewBag.TotalAppointments
                                 </p>
                             </div>
                         </div>
@@ -139,7 +133,7 @@
                     </div>
 
                     <!-- New Table -->
-                    <h3 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">All registered users</h3>
+                    <h3 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">All active registered users</h3>
                     <form>
                         <div class="w-full overflow-hidden rounded-lg shadow-xs">
                             <div class="w-full overflow-x-auto">

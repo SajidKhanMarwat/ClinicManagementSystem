@@ -1,0 +1,260 @@
+﻿@model ClinicManagementSystem.Models.UserModel
+
+@{
+    Layout = null;
+    ViewBag.Title = "Admin Dashboard";
+}
+
+<!DOCTYPE html>
+<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+
+    <script src="~/Content/js/init-alpine.js"></script>
+    <script src="~/Content/js/scripts.js"></script>
+    <link rel="stylesheet" href="~/Content/css/tailwind.output.css" />
+
+</head>
+<body>
+    <div class="flex h-screen bg-gray-50 dark:bg-gray-900"
+         :class="{ 'overflow-hidden': isSideMenuOpen }">
+        <!-- Desktop sidebar -->
+        <aside class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0">
+            <div class="py-4 text-gray-500 dark:text-gray-400">
+                <ul class="mt-6">
+                    <li class="relative px-6 py-3">
+                        <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
+                              aria-hidden="true"></span>
+                        <a class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
+                           href="~/Admin/Index">
+                            <svg class="w-5 h-5"
+                                 aria-hidden="true"
+                                 fill="none"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 stroke-width="2"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor">
+                                <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                            </svg>
+                            <span class="ml-4">Dashboard</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <div class="flex flex-col flex-1 w-full">
+            <header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
+                <div class="container flex items-center justify-between h-full px-6 mx-auto text-purple-600 dark:text-purple-300">
+                    <ul class="flex items-center flex-1 lg:mr-32 flex-shrink-0 space-x-6">
+                        <!-- Profile menu -->
+
+                        <li class="relative">
+                            <button class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
+                                    @@click="toggleProfileMenu"
+                                    @@keydown.escape="closeProfileMenu"
+                                    aria-label="Account"
+                                    aria-haspopup="true">
+
+                                <b>@ViewBag.User.FirstName @ViewBag.User.LastName</b>
+
+                            </button>
+                            <template x-if="isProfileMenuOpen">
+                                <ul x-transition:leave="transition ease-in duration-150"
+                                    x-transition:leave-start="opacity-100"
+                                    x-transition:leave-end="opacity-0"
+                                    @@click.away="closeProfileMenu"
+                                    @@keydown.escape="closeProfileMenu"
+                                    class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700"
+                                    aria-label="submenu">
+
+                                    @Html.Partial("_portalLogOUT")
+
+                                </ul>
+                            </template>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+            <main>
+
+
+
+                <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+                <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+                <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+                <!------ Include the above in your HEAD tag ---------->
+
+                <div class="container register">
+                    <div class="row">
+                        <div class="col-md-9 register-right">
+                            <div class="tab-content" id="myTabContent">
+                                    <h3 class="register-heading">Add Doctor</h3>
+                                    <div class="row register-form">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="First Name *" value="" />
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="Last Name" value="" />
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="password" class="form-control" placeholder="Email *" value="" />
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="password" class="form-control" placeholder="Password *" value="" />
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="maxl">
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="gender" value="male" checked>
+                                                        <span> Male </span>
+                                                    </label>
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="gender" value="female">
+                                                        <span>Female </span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="email" class="form-control" placeholder="Phone *" value="" />
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" minlength="10" maxlength="10" name="txtEmpPhone" class="form-control" placeholder="Address *" value="" />
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" minlength="10" maxlength="10" name="txtEmpPhone" class="form-control" placeholder="Education *" value="" />
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" minlength="10" maxlength="10" name="txtEmpPhone" class="form-control" placeholder="Experience *" value="" />
+                                            </div>
+                                            @*<div class="form-group">
+            <select class="form-control">
+                <option class="hidden" selected disabled>Please select your Sequrity Question</option>
+                <option>What is your Birthdate?</option>
+                <option>What is Your old Phone Number</option>
+                <option>What is your Pet Name?</option>
+            </select>
+        </div>
+            <div class="form-group">
+            <input type="text" class="form-control" placeholder="Enter Your Answer *" value="" />
+        </div>*@
+                                            <input type="submit" class="btnRegister" value="Register" />
+                                        </div>
+                                    </div>
+                                </div>
+                               </div>
+                    </div>
+
+                </div>
+
+
+
+            </main>
+        </div>
+    </div>
+</body>
+</html>
+
+<style>
+    .register{
+    background: #3931af;
+    margin-top: 2%;
+    padding: 3%;
+}
+.register-left{
+    text-align: center;
+    color: #fff;
+    margin-top: 4%;
+}
+.register-left input{
+    border: none;
+    border-radius: 1.5rem;
+    padding: 2%;
+    width: 60%;
+    background: #f8f9fa;
+    font-weight: bold;
+    color: #383d41;
+    margin-top: 30%;
+    margin-bottom: 3%;
+    cursor: pointer;
+}
+.register-right{
+    background: #f8f9fa;
+    border-top-left-radius: 10% 50%;
+    border-bottom-left-radius: 10% 50%;
+}
+.register-left img{
+    margin-top: 15%;
+    margin-bottom: 5%;
+    width: 25%;
+    -webkit-animation: mover 2s infinite  alternate;
+    animation: mover 1s infinite  alternate;
+}
+@@-webkit-keyframes mover {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-20px); }
+}
+@@keyframes mover {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-20px); }
+}
+.register-left p{
+    font-weight: lighter;
+    padding: 12%;
+    margin-top: -9%;
+}
+.register .register-form{
+    padding: 10%;
+    margin-top: 10%;
+}
+.btnRegister{
+    float: right;
+    margin-top: 10%;
+    border: none;
+    border-radius: 1.5rem;
+    padding: 2%;
+    background: #0062cc;
+    color: #fff;
+    font-weight: 600;
+    width: 50%;
+    cursor: pointer;
+}
+.register .nav-tabs{
+    margin-top: 3%;
+    border: none;
+    background: #0062cc;
+    border-radius: 1.5rem;
+    width: 28%;
+    float: right;
+}
+.register .nav-tabs .nav-link{
+    padding: 2%;
+    height: 34px;
+    font-weight: 600;
+    color: #fff;
+    border-top-right-radius: 1.5rem;
+    border-bottom-right-radius: 1.5rem;
+}
+.register .nav-tabs .nav-link:hover{
+    border: none;
+}
+.register .nav-tabs .nav-link.active{
+    width: 100px;
+    color: #0062cc;
+    border: 2px solid #0062cc;
+    border-top-left-radius: 1.5rem;
+    border-bottom-left-radius: 1.5rem;
+}
+.register-heading{
+    text-align: center;
+    margin-top: 8%;
+    margin-bottom: -15%;
+    color: #495057;
+}
+</style>

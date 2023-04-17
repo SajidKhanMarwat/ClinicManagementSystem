@@ -55,8 +55,8 @@ namespace ClinicManagementSystem.Controllers
             var patient = new Patient()
                 {
                     UserID = user.UserID,
-                    IsDeleted = false,
-                    CreatedOn = DateTime.Now,
+                    IsDeleted = user.IsDeleted,
+                    CreatedOn = user.CreatedOn,
                 };
                 unitOfWork.PatientRepository.AddNew(patient);
             
