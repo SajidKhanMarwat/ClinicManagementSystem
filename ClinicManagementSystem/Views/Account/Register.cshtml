@@ -14,7 +14,7 @@
                         {
                             <div class="row">
                                 @Html.AntiForgeryToken()
-                                <h4>Create new account.</h4>
+                                <h4>Patient Registration Form</h4>
                                 <hr />
                                 @Html.ValidationSummary("", new { @class = "text-danger" })
                                 <div class="col-md-6 mb-4">
@@ -50,7 +50,7 @@
 
                                 <div class="col-md-6 mb-4">
                                     <div class="form-outline">
-                                        <input name="Age" type="number" class="form-control form-control-lg" />
+                                        <input name="Age" type="date" class="form-control form-control-lg" />
                                         @Html.LabelFor(a => a.Age, new { @class = "col-md-6 form-label" })
                                     </div>
                                 </div>

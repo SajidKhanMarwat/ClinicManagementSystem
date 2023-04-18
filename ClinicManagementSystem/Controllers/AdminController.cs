@@ -104,12 +104,32 @@ namespace ClinicManagementSystem.Controllers
         [AllowAnonymous]
         public ActionResult UserProfile(int id)
         {
+            //Finding & Getting UserName by SessionID
+            var userName = unitOfWork.UserRepository.GetAll().Where(u => u.UserID == int.Parse(Session["UserID"].ToString()));
+            var fullName = new UserModel()
+            {
+                FirstName = userName.First().FirstName,
+                LastName = userName.Last().LastName,
+            };
 
-            var userDetails = unitOfWork.UserRepository.GetById(id);
+            ViewBag.User = fullName;
+
+            //var userDetails = unitOfWork.UserRepository.GetById(id);
+            var userDetails = from userTable in unitOfWork.UserRepository.GetAll().Where(i => i.UserID == id)
+                              select new UserModel()
+                              {
+                                  FirstName = userTable.FirstName,
+                                  LastName = userTable.LastName,
+                                  Email = userTable.Email,
+                                  Address = userTable.Address,
+                                  Phone = (int)userTable.Phone
+                              };
+
             if(userDetails == null)
             {
                 return RedirectToAction("MissingPage", "NotFound");
             }
+            ViewBag.UserDetails = userDetails;
             return View(userDetails);
         }
 
@@ -139,7 +159,7 @@ namespace ClinicManagementSystem.Controllers
                 {
                     FirstName = model.FirstName,
                     LastName = model.LastName,
-                    Email = model.Email,
+                    Email = model.Email.ToLower(),
                     Password = model.Password,
                     Phone = model.Phone,
                     Gender = model.Gender,
@@ -154,18 +174,21 @@ namespace ClinicManagementSystem.Controllers
                 var doctor = new Doctor()
                 {
                     UserID = user.UserID,
+                    Specialization = model.Specialization,
+                    Experience = model.Experience,
+                    Education = model.Education,
                     IsDeleted = user.IsDeleted,
                     CreatedOn = user.CreatedOn,
                 };
                 unitOfWork.DoctorRepository.AddNew(doctor);
 
-                RedirectToAction("Index", "Admin");
+               return RedirectToAction("Index", "Admin");
             }
             catch (Exception)
             {
                 RedirectToAction("Index", "Admin");
             }
-            return View();
+            return View("Index");
         }
     }
 }

@@ -29,11 +29,23 @@ namespace ClinicManagementSystem.Controllers
         {
             if (Request.IsAuthenticated)
             {
+                //Finding & Getting UserName by SessionID
+                var userName = unitOfWork.UserRepository.GetAll().Where(u => u.UserID == int.Parse(Session["UserID"].ToString()));
+                var fullName = new UserModel()
+                {
+                    FirstName = userName.First().FirstName,
+                    LastName = userName.Last().LastName,
+                };
+
+                ViewBag.User = fullName;
 
                 //Appointments Count
                 var totalAppointments = (from appointments in unitOfWork.AppointmentRepository.GetAll()
                                          join doctor in unitOfWork.DoctorRepository.GetAll() on appointments.DoctorID equals doctor.DoctorID
-                                         where doctor.UserID == int.Parse(Session["UserID"].ToString())
+                                         where doctor.UserID == int.Parse(Session["UserID"].ToString()) &&
+                                         appointments.Appointment_DateTime > DateTime.Today &&
+                                         appointments.Status == DoctorAppointmentStatus.Pending.ToString() ||
+                                         appointments.Status == DoctorAppointmentStatus.Accepted.ToString()
                                          select new
                                          {
                                              appointments.Title
@@ -68,30 +80,31 @@ namespace ClinicManagementSystem.Controllers
 
 
                     // Current appointments
-                    var currentAppointments = (from appointments in unitOfWork.AppointmentRepository.GetAll()
+                    var todayAppointments = (from appointments in unitOfWork.AppointmentRepository.GetAll()
                                                join doctor in unitOfWork.DoctorRepository.GetAll() on appointments.DoctorID equals doctor.DoctorID
                                                join patient in unitOfWork.PatientRepository.GetAll() on appointments.PatientID equals patient.PatientID
                                                join user in unitOfWork.UserRepository.GetAll() on patient.UserID equals user.UserID //Used for getting user Name
                                                where appointments.DoctorID == doctor.DoctorID &&
                                                doctor.UserID == int.Parse(Session["UserID"].ToString()) &&
+                                               appointments.Appointment_DateTime == DateTime.Today &&
                                                patient.PatientID == appointments.PatientID &&
                                                (
                                                appointments.Status == AppointmentStatus.Accepted.ToString()
                                                )
                                                select new CurrentAppointmentsDoc
-                                               {
-                                                   ApID = appointments.AppointmentID,
+                                               {                                                   
                                                    ApStatus = appointments.Status,
                                                    FirstName = user.FirstName,
                                                    LastName = user.LastName,
                                                    Title = appointments.Title,
                                                    Description = appointments.Description,
                                                    PatientHistory = appointments.PatientHistory,
-                                                   Appointment_DateTime = appointments.Appointment_DateTime.ToString(),
-                                                   PatientID = patient.UserID.Value,
+                                                   PatientID = (int)patient.UserID,
+                                                   Appointment_DateTime = appointments.Appointment_DateTime.ToString()
                                                }).ToList();
 
-                    ViewBag.CurrentAppointments = currentAppointments; //Sending Current Appointments to View
+
+                    ViewBag.TodayAppointments = todayAppointments; //Sending today's Appointments to View
 
                     return View();
                 }

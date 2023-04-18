@@ -39,7 +39,7 @@ namespace ClinicManagementSystem.Controllers
                 {
                     FirstName = viewModel.FirstName,
                     LastName = viewModel.LastName,
-                    Email = viewModel.Email,
+                    Email = viewModel.Email.ToLower(),
                     Password = viewModel.Password,
                     Age = viewModel.Age,
                     Gender = viewModel.Gender,

@@ -161,7 +161,7 @@
           <Property Name="Email" Type="nvarchar" MaxLength="70" />
           <Property Name="Phone" Type="int" />
           <Property Name="Gender" Type="varchar" MaxLength="20" />
-          <Property Name="Age" Type="int" />
+          <Property Name="Age" Type="date" />
           <Property Name="Address" Type="nvarchar" MaxLength="80" />
           <Property Name="IsDeleted" Type="bit" />
           <Property Name="CreatedOn" Type="date" />
@@ -358,7 +358,6 @@
           <EntitySet Name="Roles" EntityType="CMSModel.Role" />
           <EntitySet Name="sysdiagrams" EntityType="CMSModel.sysdiagram" />
           <EntitySet Name="User_Permissions" EntityType="CMSModel.User_Permissions" />
-          <EntitySet Name="Users" EntityType="CMSModel.User" />
           <AssociationSet Name="FK_AppointmentComment_Appointments" Association="CMSModel.FK_AppointmentComment_Appointments">
             <End Role="Appointment" EntitySet="Appointments" />
             <End Role="AppointmentComment" EntitySet="AppointmentComments" />
@@ -375,14 +374,6 @@
             <End Role="Appointment" EntitySet="Appointments" />
             <End Role="Payment" EntitySet="Payments" />
           </AssociationSet>
-          <AssociationSet Name="FK_Doctors_Users" Association="CMSModel.FK_Doctors_Users">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Doctor" EntitySet="Doctors" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Patients_Users" Association="CMSModel.FK_Patients_Users">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Patient" EntitySet="Patients" />
-          </AssociationSet>
           <AssociationSet Name="FK_User_Permissions_Permissions" Association="CMSModel.FK_User_Permissions_Permissions">
             <End Role="Permission" EntitySet="Permissions" />
             <End Role="User_Permissions" EntitySet="User_Permissions" />
@@ -391,14 +382,23 @@
             <End Role="Role" EntitySet="Roles" />
             <End Role="User_Permissions" EntitySet="User_Permissions" />
           </AssociationSet>
-          <AssociationSet Name="FK_Users_Roles" Association="CMSModel.FK_Users_Roles">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="User" EntitySet="Users" />
-          </AssociationSet>
           <EntitySet Name="Prescriptions" EntityType="CMSModel.Prescription" />
           <AssociationSet Name="FK_Prescriptions_Appointments" Association="CMSModel.FK_Prescriptions_Appointments">
             <End Role="Appointment" EntitySet="Appointments" />
             <End Role="Prescription" EntitySet="Prescriptions" />
+          </AssociationSet>
+          <EntitySet Name="Users" EntityType="CMSModel.User" />
+          <AssociationSet Name="FK_Doctors_Users" Association="CMSModel.FK_Doctors_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Doctor" EntitySet="Doctors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Patients_Users" Association="CMSModel.FK_Patients_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Patient" EntitySet="Patients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Roles" Association="CMSModel.FK_Users_Roles">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="User" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="AppointmentComment">
@@ -546,29 +546,6 @@
           <NavigationProperty Name="Permission" Relationship="CMSModel.FK_User_Permissions_Permissions" FromRole="User_Permissions" ToRole="Permission" />
           <NavigationProperty Name="Role" Relationship="CMSModel.FK_User_Permissions_Roles" FromRole="User_Permissions" ToRole="Role" />
         </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="Int32" />
-          <Property Name="Gender" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Age" Type="Int32" />
-          <Property Name="Address" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
-          <Property Name="IsDeleted" Type="Boolean" />
-          <Property Name="CreatedOn" Type="DateTime" Precision="0" />
-          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="RoleID" Type="Int32" />
-          <NavigationProperty Name="Doctors" Relationship="CMSModel.FK_Doctors_Users" FromRole="User" ToRole="Doctor" />
-          <NavigationProperty Name="Patients" Relationship="CMSModel.FK_Patients_Users" FromRole="User" ToRole="Patient" />
-          <NavigationProperty Name="Role" Relationship="CMSModel.FK_Users_Roles" FromRole="User" ToRole="Role" />
-        </EntityType>
         <Association Name="FK_AppointmentComment_Appointments">
           <End Type="CMSModel.Appointment" Role="Appointment" Multiplicity="0..1" />
           <End Type="CMSModel.AppointmentComment" Role="AppointmentComment" Multiplicity="*" />
@@ -617,30 +594,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Doctors_Users">
-          <End Type="CMSModel.User" Role="User" Multiplicity="0..1" />
-          <End Type="CMSModel.Doctor" Role="Doctor" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="Doctor">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Patients_Users">
-          <End Type="CMSModel.User" Role="User" Multiplicity="0..1" />
-          <End Type="CMSModel.Patient" Role="Patient" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="Patient">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_User_Permissions_Permissions">
           <End Type="CMSModel.Permission" Role="Permission" Multiplicity="0..1" />
           <End Type="CMSModel.User_Permissions" Role="User_Permissions" Multiplicity="*" />
@@ -661,18 +614,6 @@
               <PropertyRef Name="RoleID" />
             </Principal>
             <Dependent Role="User_Permissions">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Users_Roles">
-          <End Type="CMSModel.Role" Role="Role" Multiplicity="0..1" />
-          <End Type="CMSModel.User" Role="User" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="User">
               <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
@@ -704,6 +645,65 @@
             </Principal>
             <Dependent Role="Prescription">
               <PropertyRef Name="AppointmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="Int32" />
+          <Property Name="Gender" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Age" Type="DateTime" Precision="0" />
+          <Property Name="Address" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="0" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RoleID" Type="Int32" />
+          <NavigationProperty Name="Doctors" Relationship="CMSModel.FK_Doctors_Users" FromRole="User" ToRole="Doctor" />
+          <NavigationProperty Name="Patients" Relationship="CMSModel.FK_Patients_Users" FromRole="User" ToRole="Patient" />
+          <NavigationProperty Name="Role" Relationship="CMSModel.FK_Users_Roles" FromRole="User" ToRole="Role" />
+        </EntityType>
+        <Association Name="FK_Doctors_Users">
+          <End Type="CMSModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="CMSModel.Doctor" Role="Doctor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Doctor">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Patients_Users">
+          <End Type="CMSModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="CMSModel.Patient" Role="Patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Patient">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Roles">
+          <End Type="CMSModel.Role" Role="Role" Multiplicity="0..1" />
+          <End Type="CMSModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -851,6 +851,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Prescriptions">
+            <EntityTypeMapping TypeName="CMSModel.Prescription">
+              <MappingFragment StoreEntitySet="Prescriptions">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="Usage" ColumnName="Usage" />
+                <ScalarProperty Name="Medicines" ColumnName="Medicines" />
+                <ScalarProperty Name="PatientHistory" ColumnName="PatientHistory" />
+                <ScalarProperty Name="AppointmentID" ColumnName="AppointmentID" />
+                <ScalarProperty Name="PrescriptionID" ColumnName="PrescriptionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="CMSModel.User">
               <MappingFragment StoreEntitySet="Users">
@@ -869,24 +887,6 @@
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Prescriptions">
-            <EntityTypeMapping TypeName="CMSModel.Prescription">
-              <MappingFragment StoreEntitySet="Prescriptions">
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="Usage" ColumnName="Usage" />
-                <ScalarProperty Name="Medicines" ColumnName="Medicines" />
-                <ScalarProperty Name="PatientHistory" ColumnName="PatientHistory" />
-                <ScalarProperty Name="AppointmentID" ColumnName="AppointmentID" />
-                <ScalarProperty Name="PrescriptionID" ColumnName="PrescriptionID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

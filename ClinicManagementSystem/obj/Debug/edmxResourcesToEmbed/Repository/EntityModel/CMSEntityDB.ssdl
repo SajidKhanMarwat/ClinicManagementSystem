@@ -156,7 +156,7 @@
     <Property Name="Email" Type="nvarchar" MaxLength="70" />
     <Property Name="Phone" Type="int" />
     <Property Name="Gender" Type="varchar" MaxLength="20" />
-    <Property Name="Age" Type="int" />
+    <Property Name="Age" Type="date" />
     <Property Name="Address" Type="nvarchar" MaxLength="80" />
     <Property Name="IsDeleted" Type="bit" />
     <Property Name="CreatedOn" Type="date" />

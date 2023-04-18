@@ -27,21 +27,51 @@ namespace ClinicManagementSystem.Controllers
             if (Request.IsAuthenticated)
             {
 
+                //Finding & Getting UserName by SessionID
+                var userName = unitOfWork.UserRepository.GetAll().Where(u => u.UserID == int.Parse(Session["UserID"].ToString()));
+                var fullName = new UserModel()
+                {
+                    FirstName = userName.First().FirstName,
+                    LastName = userName.Last().LastName,
+                };
+
+                ViewBag.User = fullName;
+
                 ////Getting all the Appointments of particular Patient.
                 try
                 {
                     var currentAppointments = (from a in unitOfWork.AppointmentRepository.GetAll()
                                                join p in unitOfWork.PatientRepository.GetAll() on a.PatientID equals p.PatientID
-                                               where p.UserID == int.Parse(Session["UserID"].ToString()) && a.Status == AppointmentStatus.Accepted.ToString()
+                                               join d in unitOfWork.DoctorRepository.GetAll() on a.DoctorID equals d.DoctorID
+                                               where p.UserID == int.Parse(Session["UserID"].ToString()) &&
+                                               a.Status == AppointmentStatus.Accepted.ToString() &&
+                                               a.Appointment_DateTime == DateTime.Today
                                                select new GetCurrentAppointments
                                                {
                                                    Title = a.Title,
-                                                   DoctorID = (int)a.DoctorID,
+                                                   DoctorID = (int)d.UserID,
                                                    CreatedOn = a.CreatedOn.ToString(),
                                                    Appointment_DateTime = a.Appointment_DateTime.ToString()
                                                }).ToList();
 
                     ViewBag.CurrentAppointments = currentAppointments;
+
+                    //Getting all appointments, including accepted & declined
+                    var allAppointments = (from appointmentTable in unitOfWork.AppointmentRepository.GetAll()
+                                           join p in unitOfWork.PatientRepository.GetAll() on appointmentTable.PatientID equals p.PatientID
+                                           join d in unitOfWork.DoctorRepository.GetAll() on appointmentTable.DoctorID equals d.DoctorID
+                                           where p.UserID == int.Parse(Session["UserID"].ToString()) &&
+                                           appointmentTable.Appointment_DateTime >= DateTime.Today
+                                           select new GetCurrentAppointments
+                                           {
+                                               Title = appointmentTable.Title,
+                                               DoctorID = (int)d.UserID,
+                                               CreatedOn = appointmentTable.CreatedOn.ToString(),
+                                               Appointment_DateTime = appointmentTable.Appointment_DateTime.ToString()
+                                           });
+
+                    ViewBag.AllAppointments = allAppointments;
+
 
                     return View();
                 }
@@ -85,7 +115,8 @@ namespace ClinicManagementSystem.Controllers
                                          {
                                              appointment.Title,
                                              prescription.Medicines,
-                                             prescription.Usage
+                                             prescription.Usage,
+                                             prescription.EndDate
                                          }).ToList();
 
             return Json(completedAppointments, JsonRequestBehavior.AllowGet);
@@ -137,6 +168,12 @@ namespace ClinicManagementSystem.Controllers
             return Json(JsonRequestBehavior.AllowGet);
         }
 
+
+        public JsonResult Payments(PaymentsModel payments)
+        {
+
+            return Json(JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

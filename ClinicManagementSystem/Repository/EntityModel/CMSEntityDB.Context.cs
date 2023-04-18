@@ -34,7 +34,7 @@ namespace ClinicManagementSystem.Repository.EntityModel
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<User_Permissions> User_Permissions { get; set; }
-        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Prescription> Prescriptions { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     }
 }

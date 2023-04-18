@@ -14,18 +14,18 @@
         <EntityTypeShape EntityType="CMSModel.Role" Width="1.5" PointX="0.75" PointY="9.625" />
         <EntityTypeShape EntityType="CMSModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="CMSModel.User_Permissions" Width="1.5" PointX="3" PointY="8.5" />
-        <EntityTypeShape EntityType="CMSModel.User" Width="1.5" PointX="3" PointY="12.75" />
         <AssociationConnector Association="CMSModel.FK_AppointmentComment_Appointments" />
         <AssociationConnector Association="CMSModel.FK_Appointments_Doctors" />
         <AssociationConnector Association="CMSModel.FK_Appointments_Patients" />
         <AssociationConnector Association="CMSModel.FK_Payments_Appointments" />
-        <AssociationConnector Association="CMSModel.FK_Doctors_Users" />
-        <AssociationConnector Association="CMSModel.FK_Patients_Users" />
         <AssociationConnector Association="CMSModel.FK_User_Permissions_Permissions" />
         <AssociationConnector Association="CMSModel.FK_User_Permissions_Roles" />
-        <AssociationConnector Association="CMSModel.FK_Users_Roles" />
         <EntityTypeShape EntityType="CMSModel.Prescription" Width="1.5" PointX="9.75" PointY="17.25" />
         <AssociationConnector Association="CMSModel.FK_Prescriptions_Appointments" />
+        <EntityTypeShape EntityType="CMSModel.User" Width="1.5" PointX="3" PointY="12.875" />
+        <AssociationConnector Association="CMSModel.FK_Doctors_Users" />
+        <AssociationConnector Association="CMSModel.FK_Patients_Users" />
+        <AssociationConnector Association="CMSModel.FK_Users_Roles" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

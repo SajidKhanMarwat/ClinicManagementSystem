@@ -1,48 +1,268 @@
-﻿@model ClinicManagementSystem.Repository.EntityModel.User
-
+﻿
 @{
-    ViewBag.Title = "UserProfile";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
+    ViewBag.Title = "Admin Portal";
 }
 
-<div class="w-full overflow-hidden rounded-lg shadow-xs ">
-    <div class="w-full overflow-x-auto">
-        <table class="w-full whitespace-no-wrap">
-            <thead>
-                <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase 
-                    border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                    <th class="px-4 py-3">First Name</th>
-                    <th class="px-4 py-3">Last Name</th>
-                    <th class="px-4 py-3">Email</th>
-                    <th class="px-4 py-3">Phone</th>
-                    <th class="px-4 py-3">Gender</th>
-                    <th class="px-4 py-3">Address</th>
-                </tr>
-        </thead>
+<!DOCTYPE html>
+<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
 
-            <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                <tr class="text-gray-700 dark:text-gray-400">
-                    <td class="px-4 py-3">
-                            @Html.DisplayFor(model => model.FirstName)
-                    </td>
-                    <td class="px-4 py-3 text-sm">
-                            @Html.DisplayFor(model => model.LastName)
-                    </td>
-                    <td class="px-4 py-3 text-sm">
-                            @Html.DisplayFor(model => model.Email)
-                    </td>
-                    <td class="px-4 py-3 text-sm">
-                            @Html.DisplayFor(model => model.Phone)
-                    </td>
-                    <td class="px-4 py-3 text-sm">
-                            @Html.DisplayFor(model => model.Gender)
-                    </td>
-                    <td class="px-4 py-3 text-sm">
-                            @Html.DisplayFor(model => model.Address)
-                    </td>
-                </tr>
-            </tbody>
+    <script src="~/Content/js/init-alpine.js"></script>
+    <script src="~/Content/js/scripts.js"></script>
+    <link rel="stylesheet" href="~/Content/css/tailwind.output.css" />
 
-        </table>
+</head>
+<body>
+    <div class="flex h-screen bg-gray-50 dark:bg-gray-900"
+         :class="{ 'overflow-hidden': isSideMenuOpen }">
+        <!-- Desktop sidebar -->
+        <aside class="z-20 hidden w-64 overflow-y-auto dark:bg-gray-800 md:block flex-shrink-0" style="background-color: #E7E9EB">
+            <div class="py-4 text-gray-500 dark:text-gray-400">
+                <ul class="mt-6">
+                    <li class="relative px-6 py-3">
+                        <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
+                              aria-hidden="true"></span>
+                        <a class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
+                           href="~/Admin/UserProfile">
+                            <svg class="w-5 h-5"
+                                 aria-hidden="true"
+                                 fill="none"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 stroke-width="2"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor">
+                                <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                            </svg>
+                            <span class="ml-4">Profile</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+        <div class="flex flex-col flex-1 w-full">
+            <header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
+                <div class="container flex items-center justify-between h-full px-6 mx-auto text-black-600 dark:text-purple-300">
+                    <h5><strong>@ViewBag.User.FirstName @ViewBag.User.LastName</strong></h5>
+                    <ul class="flex flex-1">
+                        <!-- Profile menu -->
+                        <li class="relative">
+                            &nbsp;
+                            <button class="btn btn-outline-primary"
+                                    @@click="toggleProfileMenu"
+                                    @@keydown.escape="closeProfileMenu"
+                                    aria-label="Account"
+                                    aria-haspopup="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-menu-down" viewBox="0 0 16 16">
+                                    <path d="M7.646.146a.5.5 0 0 1 .708 0L10.207 2H14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h3.793L7.646.146zM1 7v3h14V7H1zm14-1V4a1 1 0 0 0-1-1h-3.793a1 1 0 0 1-.707-.293L8 1.207l-1.5 1.5A1 1 0 0 1 5.793 3H2a1 1 0 0 0-1 1v2h14zm0 5H1v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2zM2 4.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5zm0 4a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0 4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z" />
+                                </svg>
+                            </button>
+                            <template x-if="isProfileMenuOpen">
+                                <ul x-transition:leave="transition ease-in duration-150"
+                                    x-transition:leave-start="opacity-100"
+                                    x-transition:leave-end="opacity-0"
+                                    @@click.away="closeProfileMenu"
+                                    @@keydown.escape="closeProfileMenu"
+                                    class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700"
+                                    aria-label="submenu">
+
+                                    @Html.Partial("_portalLogOUT")
+
+                                </ul>
+                            </template>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+            <main>
+                <div class="page-content page-container" id="page-content">
+                    <div class="padding">
+                        <div class="row container d-flex justify-content-center">
+                            <div class="col-xl-6 col-md-12">
+                                <div class="card user-card-full">
+                                    <div class="row m-l-0 m-r-0">
+                                        @foreach (var user in ViewBag.UserDetails)
+                                        {
+                                            <div class="col-sm-4 bg-c-lite-green user-profile">
+                                                <div class="card-block text-center text-white">
+                                                    <h3 class="fs-1">@user.FirstName&nbsp;@user.LastName</h3>
+                                                    @*<h3>Web Designer</h3>*@
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <div class="card-block">
+                                                    <h6 class="m-b-20 p-b-5 b-b-default f-w-600">User Details</h6>
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <p class="m-b-10 f-w-600">Email</p>
+                                                            <h6 class="text-muted f-w-400">@user.Email</h6>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <p class="m-b-10 f-w-600">Phone</p>
+                                                            <h6 class="text-muted f-w-400">@user.Phone</h6>
+                                                        </div>
+                                                    </div>
+                                                    <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Address</h6>
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <p class="m-b-10 f-w-600">Recently</p>
+                                                            <h6 class="text-muted f-w-400">@user.Address</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
     </div>
-</div>
+</body>
+</html>
+
+
+<style>
+    body {
+        background-color: #f9f9fa
+    }
+
+    .padding {
+        padding: 3rem !important
+    }
+
+    .user-card-full {
+        overflow: hidden;
+    }
+
+    .card {
+        border-radius: 5px;
+        -webkit-box-shadow: 0 1px 20px 0 rgba(69,90,100,0.08);
+        box-shadow: 0 1px 20px 0 rgba(69,90,100,0.08);
+        border: none;
+        margin-bottom: 30px;
+    }
+
+    .m-r-0 {
+        margin-right: 0px;
+    }
+
+    .m-l-0 {
+        margin-left: 0px;
+    }
+
+    .user-card-full .user-profile {
+        border-radius: 5px 0 0 5px;
+    }
+
+    .bg-c-lite-green {
+        background: -webkit-gradient(linear, left top, right top, from(#639ff2), to(#6934ed));
+        background: linear-gradient(to right, #6934ed, #639ff2);
+    }
+
+    .user-profile {
+        padding: 20px 0;
+    }
+
+    .card-block {
+        padding: 1.25rem;
+    }
+
+    .m-b-25 {
+        margin-bottom: 25px;
+    }
+
+    .img-radius {
+        border-radius: 5px;
+    }
+
+
+
+    h6 {
+        font-size: 14px;
+    }
+
+    .card .card-block p {
+        line-height: 25px;
+    }
+
+    @@media only screen and (min-width: 1400px) {
+        p {
+            font-size: 14px;
+        }
+    }
+
+    .card-block {
+        padding: 1.25rem;
+    }
+
+    .b-b-default {
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .m-b-20 {
+        margin-bottom: 20px;
+    }
+
+    .p-b-5 {
+        padding-bottom: 5px !important;
+    }
+
+    .card .card-block p {
+        line-height: 25px;
+    }
+
+    .m-b-10 {
+        margin-bottom: 10px;
+    }
+
+    .text-muted {
+        color: #919aa3 !important;
+    }
+
+    .b-b-default {
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .f-w-600 {
+        font-weight: 600;
+    }
+
+    .m-b-20 {
+        margin-bottom: 20px;
+    }
+
+    .m-t-40 {
+        margin-top: 20px;
+    }
+
+    .p-b-5 {
+        padding-bottom: 5px !important;
+    }
+
+    .m-b-10 {
+        margin-bottom: 10px;
+    }
+
+    .m-t-40 {
+        margin-top: 20px;
+    }
+
+    .user-card-full .social-link li {
+        display: inline-block;
+    }
+
+        .user-card-full .social-link li a {
+            font-size: 20px;
+            margin: 0 10px 0 0;
+            -webkit-transition: all 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out;
+        }
+</style>

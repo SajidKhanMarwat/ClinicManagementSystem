@@ -51,7 +51,7 @@ namespace ClinicManagementSystem.Models
 
         [Required]
         [Display(Name = "Age")]
-        public int Age { get; set; }
+        public DateTime Age { get; set; }
 
         [Display(Name = "Address")]
         public string Address { get; set; }

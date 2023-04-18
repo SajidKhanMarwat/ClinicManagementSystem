@@ -20,27 +20,26 @@
                                 <h4>Login to your account.</h4>
                                 <hr />
                                 @Html.ValidationSummary("", new { @class = "text-danger" })
-                                <div class="mb-5 ">
+                            <div class="mb-5 ">
 
-                                    <div class="mb-4 ">
-                                        <div class="form-outline">
-                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-lg " })
-                                            @Html.LabelFor(m => m.Email, new { @class = "col-md-6 form-label" })
-                                        </div>
-                                    </div>
-
-                                    <div class="mb-4">
-
-                                        <div class="form-outline">
-                                            @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-lg" })
-                                            @Html.LabelFor(m => m.Password, new { @class = "col-md-6 form-label" })
-                                        </div>
-                                    </div>
-
-                                    <div class="d-grid gap-4 col-7 ">
-                                        <button class="btn btn-primary btn-lg" type="submit">Login</button>
+                                <div class="mb-4 ">
+                                    <div class="form-outline">
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-lg ", @id = "email-input" })
+                                        @Html.LabelFor(m => m.Email, new { @class = "col-md-6 form-label" })
                                     </div>
                                 </div>
+
+                                <div class="mb-4">
+                                    <div class="form-outline">
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-lg", @id = "password-input" })
+                                        @Html.LabelFor(m => m.Password, new { @class = "col-md-6 form-label" })
+                                    </div>
+                                </div>
+
+                                <div class="d-grid gap-4 col-7 ">
+                                    <button class="btn btn-primary btn-lg" type="submit">Login</button>
+                                </div>
+                            </div>
                             </div>
                         }
                     </div>

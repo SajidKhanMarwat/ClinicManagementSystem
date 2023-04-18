@@ -1,5 +1,3 @@
-F:\Work\ClinicManagement\ClinicManagementSystem\obj\Debug\ClinicManagementSystem.csproj.AssemblyReference.cache
-F:\Work\ClinicManagement\ClinicManagementSystem\obj\Debug\ClinicManagementSystem.csproj.CoreCompileInputs.cache
 F:\Work\ClinicManagement\ClinicManagementSystem\bin\ClinicManagementSystem.dll.config
 F:\Work\ClinicManagement\ClinicManagementSystem\bin\ClinicManagementSystem.dll
 F:\Work\ClinicManagement\ClinicManagementSystem\bin\ClinicManagementSystem.pdb
@@ -95,6 +93,8 @@ F:\Work\ClinicManagement\ClinicManagementSystem\bin\System.Web.WebPages.Razor.xm
 F:\Work\ClinicManagement\ClinicManagementSystem\bin\Newtonsoft.Json.xml
 F:\Work\ClinicManagement\ClinicManagementSystem\bin\Antlr3.Runtime.pdb
 F:\Work\ClinicManagement\ClinicManagementSystem\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+F:\Work\ClinicManagement\ClinicManagementSystem\obj\Debug\ClinicManagementSystem.csproj.AssemblyReference.cache
+F:\Work\ClinicManagement\ClinicManagementSystem\obj\Debug\ClinicManagementSystem.csproj.CoreCompileInputs.cache
 F:\Work\ClinicManagement\ClinicManagementSystem\obj\Debug\ClinicManagementSystem.csproj.CopyComplete
 F:\Work\ClinicManagement\ClinicManagementSystem\obj\Debug\ClinicManagementSystem.dll
 F:\Work\ClinicManagement\ClinicManagementSystem\obj\Debug\ClinicManagementSystem.pdb

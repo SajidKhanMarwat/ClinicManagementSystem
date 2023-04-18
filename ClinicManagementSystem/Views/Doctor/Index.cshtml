@@ -1,6 +1,4 @@
-﻿
-
-@{
+﻿@{
     Layout = null;
 }
 
@@ -16,6 +14,8 @@
     <script src="~/Content/js/init-alpine.js"></script>
     <script src="~/Content/js/scripts.js"></script>
     <script src="~/Scripts/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
 
     <!--Used for bootstrap popups-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -26,7 +26,7 @@
     <div class="flex h-screen bg-gray-50 dark:bg-gray-900"
          :class="{ 'overflow-hidden': isSideMenuOpen }">
         <!-- Desktop sidebar -->
-        <aside class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0">
+        <aside class="z-20 hidden w-64 overflow-y-auto dark:bg-gray-800 md:block flex-shrink-0" style="background-color: #E7E9EB">
             <div class="py-4 text-gray-500 dark:text-gray-400">
                 <ul class="mt-6">
                     <li class="relative px-6 py-3">
@@ -53,23 +53,20 @@
 
         <div class="flex flex-col flex-1 w-full">
             <header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
-                <div class="container flex items-center justify-between h-full px-6 mx-auto text-purple-600 dark:text-purple-300">
-                    <!-- Search input -->
-                    <!--<div class="flex justify-center flex-1 lg:mr-32">
-
-                    </div>-->
-                    <ul class="flex items-center justify-center flex-1 lg:mr-32 flex-shrink-0 space-x-6">
+                <div class="container flex items-center justify-between h-full px-6 mx-auto text-black-600 dark:text-purple-300">
+                    <h5><strong>@ViewBag.User.FirstName @ViewBag.User.LastName</strong></h5>
+                    <ul class="flex flex-1">
                         <!-- Profile menu -->
                         <li class="relative">
-                            <button class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
+                            &nbsp;
+                            <button class="btn btn-outline-primary"
                                     @@click="toggleProfileMenu"
                                     @@keydown.escape="closeProfileMenu"
                                     aria-label="Account"
                                     aria-haspopup="true">
-                                <img class="object-cover w-8 h-8 rounded-full"
-                                     src="https://images.unsplash.com/photo-1502378735452-bc7d86632805?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=aa3a807e1bbdfd4364d1f449eaa96d82"
-                                     alt=""
-                                     aria-hidden="true" />
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-menu-down" viewBox="0 0 16 16">
+                                    <path d="M7.646.146a.5.5 0 0 1 .708 0L10.207 2H14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h3.793L7.646.146zM1 7v3h14V7H1zm14-1V4a1 1 0 0 0-1-1h-3.793a1 1 0 0 1-.707-.293L8 1.207l-1.5 1.5A1 1 0 0 1 5.793 3H2a1 1 0 0 0-1 1v2h14zm0 5H1v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2zM2 4.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5zm0 4a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0 4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z" />
+                                </svg>
                             </button>
                             <template x-if="isProfileMenuOpen">
                                 <ul x-transition:leave="transition ease-in duration-150"
@@ -175,10 +172,10 @@
 
 
                     <!-- Ongoing Appointments Table-->
-                    <h3 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">Current Appointments</h3>
-                    @if (ViewBag.CurrentAppointments != null)
+                    <h3 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">Today's Appointments</h3>
+                    @if (ViewBag.TodayAppointments != null)
                     {
-                        foreach (var appointment in ViewBag.CurrentAppointments)
+                        foreach (var appointment in ViewBag.TodayAppointments)
                         {
                             <form>
                                 <div class="w-full overflow-hidden rounded-lg shadow-xs">
@@ -194,8 +191,7 @@
                                                 </tr>
                                             </thead>
 
-                                            <!-- All Users List from Database -->
-
+                                            <!-- All Appointments List from Database -->
                                             <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                                                 <tr class="text-gray-700 dark:text-gray-400">
                                                     <td class="px-4 py-3">
@@ -229,18 +225,15 @@
                                                     <!-- Create Prescription -->
                                                     <td class="px-4 py-3 text-sm">
                                                         <div class="card-body">
-                                                            <button id="createPrescriptionBtn" class="btn bg-success text-white btn-lg" type="button"
+                                                            <button id="createPrescriptionBtn" class="btn bg-success text-white btn-m" type="button"
                                                                     data-bs-toggle="modal" data-bs-target="#createPrescription" data-bs-whatever="@@mdo">
                                                                 Write Prescription
                                                             </button>
-
-
-
                                                         </div>
                                                     </td>
                                                 </tr>
                                             </tbody>
-                                            
+
                                         </table>
                                     </div>
                                 </div>
@@ -259,18 +252,24 @@
                                             @* Prescription Form *@
                                             <form id="CreatePrescription" method='POST'>
                                                 <div class="mb-3">
-                                                    <textarea name="Medicines" class="form-control" placeholder="Medicines"></textarea>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <textarea name="Usage" class="form-control" placeholder="Usage"></textarea>
+                                                    <div class="form-group" id="inputGroupWrapper">
+                                                        <div id="inputFields">
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" name="Medicines" placeholder="Medicine" />&nbsp;<input type="text" class="form-control" name="Usage" placeholder="Usage" />
+                                                                <div class="input-group-append">
+                                                                    <button class="btn btn-success addInputGroup" type="button"><i>+</i></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
 
-                                                <div class="mb-3">
+                                                @*<div class="mb-3">
                                                     <label for="date" class="col-1 col-form-label text-black">StartDate</label>
                                                     <input name="StartDate" id="startDate" class="form-control" type="date" />
-                                                </div>
+                                                </div>*@
                                                 <div class="mb-3">
-                                                    <label for="date" class="col-1 col-form-label text-black">EndDate</label>
+                                                    <label for="date" class="col-1 col-form-label text-black">FollowUp</label>
                                                     <input name="EndDate" id="endDate" class="form-control" type="date" />
                                                 </div>
                                                 <div class="modal-footer">
@@ -294,39 +293,34 @@
 </body>
 </html>
 
-
 <script>
-
 
     //Appointment Accepted
     function Accepted(apId) {
         var id = apId;
         $.ajax({
-            url: '/Doctor/Accepted/'+id,
+            url: '/Doctor/Accepted/' + id,
             data: { apId: id },
             type: 'POST',
             success: function (result) {
-                alert("Updated Successfully")
+                alert("Appointment Accepted")
             }
         });
     }
 
 
     //Appointment Declined
-    function Declined(apId)
-    {
+    function Declined(apId) {
         var id = apId;
         $.ajax(
             {
-            url: '/Doctor/Declined/'+id,
-            data: { apId: id },
-            type: 'POST',
-                success: function (result)
-                
-            {
-                alert("Updated Successfully")
-            }
-        });
+                url: '/Doctor/Declined/' + id,
+                data: { apId: id },
+                type: 'POST',
+                success: function (result) {
+                    alert("Appointment Declined")
+                }
+            });
     }
 
     //Appointment Completed > when prescription is created
@@ -339,26 +333,41 @@
                 data: { apId: id },
                 type: 'POST',
                 success: function (result) {
-                    alert("Successful")
+                    alert("Appointment Completed Successfully")
                 }
             });
     }
 
     //Prescription Create
-    function CreatePrescription()
-    {
-        var formData = $('#CreatePrescription').serialize();
-        $.ajax(
-            {
-            type: 'POST',
-            url: '/Doctor/Prescription',
-            data: formData,
-            success: function (response)
-            {
-                debugger
-                Completed($("#AppointmentId").val());
-            }
-        });
+    function CreatePrescription() {
+        var formData = $('#CreatePrescription').serialize(); // User Input Date
+        var inputDate = new Date($('#endDate').val()); // Get current Date
+        var currentDate = new Date();
+        debugger
+        if (currentDate <= inputDate) {
+            alert("Invalid Date")
+        }
+        else {
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: '/Doctor/Prescription',
+                    data: formData,
+                    success: function (response) {
+                        Completed($("#AppointmentId").val());
+                    }
+                });
+        }
     }
 
+    // Add new input field
+    $(document).on('click', '.addInputGroup', function () {
+        var inputField = '<div class="input-group mt-2"><input type="text" class="form-control" name="Medicines" placeholder="Enter a value">&nbsp<input type="text" class="form-control" name="Usage" placeholder="Enter a value"> <div class="input-group-append"><button class="btn btn-danger removeInputGroup" type="button"><i>-</i></button></div></div>';
+        $('#inputFields').append(inputField);
+    });
+
+    // Remove input field
+    $(document).on('click', '.removeInputGroup', function () {
+        $(this).parent().parent().remove();
+    });
 </script>

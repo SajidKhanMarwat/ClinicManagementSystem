@@ -62,4 +62,10 @@ namespace ClinicManagementSystem.Models
         public string CreatedOn { get; set; }
         public string Appointment_DateTime { get; set; }
     }
+
+    public class PaymentsModel
+    {
+        public double CardNumber { get; set; }
+        public decimal Amount { get; set; }
+    }
 }
