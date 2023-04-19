@@ -40,7 +40,7 @@ namespace ClinicManagementSystem.Controllers
                 ////Getting all the Appointments of particular Patient.
                 try
                 {
-                    var currentAppointments = (from a in unitOfWork.AppointmentRepository.GetAll()
+                    var todayAppointments = (from a in unitOfWork.AppointmentRepository.GetAll()
                                                join p in unitOfWork.PatientRepository.GetAll() on a.PatientID equals p.PatientID
                                                join d in unitOfWork.DoctorRepository.GetAll() on a.DoctorID equals d.DoctorID
                                                where p.UserID == int.Parse(Session["UserID"].ToString()) &&
@@ -51,27 +51,11 @@ namespace ClinicManagementSystem.Controllers
                                                    Title = a.Title,
                                                    DoctorID = (int)d.UserID,
                                                    CreatedOn = a.CreatedOn.ToString(),
-                                                   Appointment_DateTime = a.Appointment_DateTime.ToString()
+                                                   Appointment_DateTime = a.Appointment_DateTime.ToString(),
+                                                   Appointment_Status = a.Status
                                                }).ToList();
 
-                    ViewBag.CurrentAppointments = currentAppointments;
-
-                    //Getting all appointments, including accepted & declined
-                    var allAppointments = (from appointmentTable in unitOfWork.AppointmentRepository.GetAll()
-                                           join p in unitOfWork.PatientRepository.GetAll() on appointmentTable.PatientID equals p.PatientID
-                                           join d in unitOfWork.DoctorRepository.GetAll() on appointmentTable.DoctorID equals d.DoctorID
-                                           where p.UserID == int.Parse(Session["UserID"].ToString()) &&
-                                           appointmentTable.Appointment_DateTime >= DateTime.Today
-                                           select new GetCurrentAppointments
-                                           {
-                                               Title = appointmentTable.Title,
-                                               DoctorID = (int)d.UserID,
-                                               CreatedOn = appointmentTable.CreatedOn.ToString(),
-                                               Appointment_DateTime = appointmentTable.Appointment_DateTime.ToString()
-                                           });
-
-                    ViewBag.AllAppointments = allAppointments;
-
+                    ViewBag.TodayAppointments = todayAppointments;
 
                     return View();
                 }
@@ -88,6 +72,79 @@ namespace ClinicManagementSystem.Controllers
             
         }
 
+        public ActionResult AllAppointments()
+        {
+            //Finding & Getting UserName by SessionID
+            var userName = unitOfWork.UserRepository.GetAll().Where(u => u.UserID == int.Parse(Session["UserID"].ToString()));
+            var fullName = new UserModel()
+            {
+                FirstName = userName.First().FirstName,
+                LastName = userName.Last().LastName,
+            };
+
+            ViewBag.User = fullName;
+
+
+            if (Request.IsAuthenticated)
+            {
+                //Getting all appointments, including accepted & declined
+                var allAppointments = (from appointmentTable in unitOfWork.AppointmentRepository.GetAll()
+                                       join p in unitOfWork.PatientRepository.GetAll() on appointmentTable.PatientID equals p.PatientID
+                                       join d in unitOfWork.DoctorRepository.GetAll() on appointmentTable.DoctorID equals d.DoctorID
+                                       where p.UserID == int.Parse(Session["UserID"].ToString())
+                                       select new GetCurrentAppointments
+                                       {
+                                           Title = appointmentTable.Title,
+                                           DoctorID = (int)d.UserID,
+                                           CreatedOn = appointmentTable.CreatedOn.ToString(),
+                                           Appointment_DateTime = appointmentTable.Appointment_DateTime.ToString(),
+                                           Appointment_Status = appointmentTable.Status
+                                       });
+
+                ViewBag.AllAppointments = allAppointments;
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
+        public ActionResult AllPrescriptions()
+        {
+            //Finding & Getting UserName by SessionID
+            var userName = unitOfWork.UserRepository.GetAll().Where(u => u.UserID == int.Parse(Session["UserID"].ToString()));
+            var fullName = new UserModel()
+            {
+                FirstName = userName.First().FirstName,
+                LastName = userName.Last().LastName,
+            };
+
+            ViewBag.User = fullName;
+
+
+            if (Request.IsAuthenticated)
+            {
+                var completedAppointmentsPrescriptions = (from appointment in unitOfWork.AppointmentRepository.GetAll()
+                                             join prescription in unitOfWork.PrescriptionRepository.GetAll() on appointment.AppointmentID equals prescription.AppointmentID
+                                             join patient in unitOfWork.PatientRepository.GetAll() on appointment.PatientID equals patient.PatientID
+                                             where patient.UserID == int.Parse(Session["UserID"].ToString())
+                                             select new PrescriptionsCompleted
+                                             {
+                                                 Title = appointment.Title,
+                                                 Medicines = prescription.Medicines,
+                                                 Usage = prescription.Usage,
+                                                 EndDate = (DateTime)prescription.EndDate
+                                             }).ToList();
+
+                ViewBag.CompletedAppointmentsPrescriptions = completedAppointmentsPrescriptions;
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login","Account");
+            }
+        }
 
         //View Appointmnts Json Format
         public JsonResult MyAppointments()
@@ -131,6 +188,7 @@ namespace ClinicManagementSystem.Controllers
                                     select new
                                     {
                                         doctor.UserID,
+                                        doctor.Fees,
                                         user.FirstName,
                                         user.LastName,
                                         doctor.Specialization,
@@ -145,27 +203,58 @@ namespace ClinicManagementSystem.Controllers
         //Create Appointment
         public JsonResult CreateAppointment(AppointmentsDetails model)
         {
-            //Getting DoctorID by comparing the UserID of particular Doctor in Doctor Table
-            var doctor = unitOfWork.DoctorRepository.GetAll().Where(u => u.UserID == model.DoctorID).FirstOrDefault();
-            //Get Patient id as a User
-            var patient = unitOfWork.PatientRepository.GetAll().Where(u => u.UserID == int.Parse(Session["UserID"].ToString())).FirstOrDefault();
+                //Getting DoctorID by comparing the UserID of particular Doctor in Doctor Table
+                var doctor = unitOfWork.DoctorRepository.GetAll().Where(u => u.UserID == model.DoctorID && u.Fees == model.FeesPaid).FirstOrDefault();
+                //Get Patient by session
+                var patient = unitOfWork.PatientRepository.GetAll().Where(u => u.UserID == int.Parse(Session["UserID"].ToString())).FirstOrDefault();
 
+            //var paymentCheck = (from payment in unitOfWork.PaymentRepository.GetAll()
+            //                 join p in unitOfWork.PatientRepository.GetAll() on payment.PaymentID equals p.PatientID
+            //                 join a in unitOfWork.AppointmentRepository.GetAll() on payment.AppointmentID equals a.AppointmentID
+            //                 where payment.PaymentID == p.PatientID &&
+            //                 payment.AppointmentID == a.AppointmentID &&
+            //                 p.UserID == int.Parse(Session["UserID"].ToString())
+            //                 select new
+            //                 {
+            //                     //payment.PaymentID,
+            //                     //payment.AppointmentID,
+            //                     //payment.Date
+            //                 });
 
-            var newAppointment = new Appointment()
+            if (doctor.Fees == model.FeesPaid)
             {
-                Title = model.Title,
-                Description = model.Description,
-                FeesPaid = model.FeesPaid,
-                Appointment_DateTime = model.Appointment_DateTime,
-                PatientHistory = model.PatientHistory,
-                Status = AppointmentStatus.Pending.ToString(),
-                DoctorID = doctor.DoctorID,
-                PatientID = patient.PatientID,
-            };
+                var newAppointment = new Appointment()
+                {
+                    Title = model.Title,
+                    Description = model.Description,
+                    FeesPaid = model.FeesPaid,
+                    Appointment_DateTime = model.Appointment_DateTime,
+                    //PatientHistory = model.PatientHistory,
+                    Status = AppointmentStatus.Pending.ToString(),
+                    DoctorID = doctor.DoctorID,
+                    PatientID = patient.PatientID,
+                    CreatedOn = DateTime.Today,
+                };
 
-            unitOfWork.AppointmentRepository.AddNew(newAppointment);
+                unitOfWork.AppointmentRepository.AddNew(newAppointment);
 
-            return Json(JsonRequestBehavior.AllowGet);
+                var newPayments = new Payment()
+                {
+                    AppointmentID = newAppointment.AppointmentID,
+                    CardNumber = (int?)model.CardNumber,
+                    Amount = newAppointment.FeesPaid,
+                    Date = newAppointment.CreatedOn,
+                    IsDeleted = false,
+                };
+
+                unitOfWork.PaymentRepository.AddNew(newPayments);
+                return Json(JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(null);
+            }
+            
         }
 
 

@@ -19,21 +19,31 @@ namespace ClinicManagementSystem.Controllers
             if (Request.IsAuthenticated)
             {
                 // All Users
-                var totalUsers = unitOfWork.UserRepository.GetAll().Where(i => i.IsDeleted == false && i.RoleID != 1).ToList();
-                ViewBag.All = totalUsers;
+                var totalUsers = unitOfWork.UserRepository.GetAll().Where(u => u.IsDeleted == false).ToList();
+                ViewBag.AllUsers = totalUsers;
 
-                int doctorsCount = unitOfWork.DoctorRepository.GetAll()
-                    .Where(d => totalUsers
-                    .Any(u => u.UserID == d.UserID))
-                    .Count();
+                int doctorsCount = (from user in unitOfWork.UserRepository.GetAll()
+                                    join doctors in unitOfWork.DoctorRepository.GetAll() on user.UserID equals doctors.UserID
+                                    where user.UserID == doctors.UserID &&
+                                    user.IsDeleted == false
+                                    select new
+                                    {
+                                        user.UserID
+                                    }
+                                   ).Count();
                 ViewBag.totalDoctors = doctorsCount;
 
 
                 // All Patients
-                int patientsCount = unitOfWork.PatientRepository.GetAll().Where(i => i.IsDeleted == false)
-                    .Where(p => totalUsers
-                    .Any(u => u.UserID == p.UserID))
-                    .Count();
+                int patientsCount = (from user in unitOfWork.UserRepository.GetAll()
+                                     join patients in unitOfWork.DoctorRepository.GetAll() on user.UserID equals patients.UserID
+                                     where user.UserID == patients.UserID &&
+                                     user.IsDeleted == false
+                                     select new
+                                     {
+                                         user.UserID
+                                     }
+                                   ).Count();
                 ViewBag.TotalPatients = patientsCount;
 
 
@@ -44,15 +54,15 @@ namespace ClinicManagementSystem.Controllers
 
 
                 //Finding & Getting UserName by SessionID
-                var user = unitOfWork.UserRepository.GetAll().Where(u => u.UserID == int.Parse(Session["UserID"].ToString()));
+                //var user = unitOfWork.UserRepository.GetAll().Where(u => u.UserID == int.Parse(Session["UserID"].ToString()));
 
-                var fullName = new UserModel()
-                {
-                    FirstName = user.First().FirstName,
-                    LastName = user.Last().LastName,
-                };
+                //var fullName = new UserModel()
+                //{
+                //    FirstName = user.First().FirstName,
+                //    LastName = user.Last().LastName,
+                //};
 
-                ViewBag.User = fullName;
+                //ViewBag.User = fullName;
 
                 return View();
             }
@@ -189,6 +199,54 @@ namespace ClinicManagementSystem.Controllers
                 RedirectToAction("Index", "Admin");
             }
             return View("Index");
+        }
+
+        public ActionResult AllPatients()
+        {
+            var allPatients = (from patient in unitOfWork.PatientRepository.GetAll().Where(p => p.IsDeleted == false)
+                              join user in unitOfWork.UserRepository.GetAll() on patient.UserID equals user.UserID
+                               where patient.UserID == user.UserID
+                              select new AllDoctors()
+                              {
+                                  FirstName = user.FirstName,
+                                  LastName = user.LastName,
+                                  Email = user.Email,
+                                  Phone = (int)user.Phone,
+                                  Gender = user.Gender,
+                                  Age = (DateTime)user.Age,
+                                  Address = user.Address
+                              }).ToList();
+            ViewBag.Patients = allPatients;
+            return View();
+        }
+
+        public ActionResult AllDoctors()
+        {
+            var allDoctors = (from doctor in unitOfWork.DoctorRepository.GetAll().Where(d => d.IsDeleted == false)
+                              join user in unitOfWork.UserRepository.GetAll() on doctor.UserID equals user.UserID
+                              where doctor.UserID == user.UserID
+                              select new AllDoctors()
+                              {
+                                  FirstName = user.FirstName,
+                                  LastName = user.LastName,
+                                  Email = user.Email,
+                                  Phone = (int)user.Phone,
+                                  Education = doctor.Education,
+                                  Experience = (int)doctor.Experience,
+                                  Fees = (int)doctor.Fees,
+                                  Specialization = doctor.Specialization,
+                                  WorkingHours = (int)doctor.WorkingHours,
+                                  DoctorID = (int)doctor.UserID
+                              }).ToList();
+            ViewBag.Doctors = allDoctors;
+            return View();
+        }
+
+        public ActionResult AllAppointments()
+        {
+            var allAppointments = unitOfWork.AppointmentRepository.GetAll();
+            ViewBag.Appointments = allAppointments;
+            return View();
         }
     }
 }

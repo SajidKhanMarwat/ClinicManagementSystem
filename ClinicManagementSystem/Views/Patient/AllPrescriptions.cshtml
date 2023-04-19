@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Doctor Dashboard</title>
+    <title>Patient Dashboard</title>
 
     <link rel="stylesheet" href="~/Content/css/tailwind.output.css" />
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
@@ -55,7 +55,7 @@
                     <li class="relative px-6 py-3">
                         <span aria-hidden="true"></span>
                         <a class="inline-flex items-center w-full text-m font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
-                           href="~/Doctor/Index">
+                           href="~/Patient/Index">
                             <svg class="w-5 h-5"
                                  aria-hidden="true"
                                  fill="none"
@@ -72,7 +72,24 @@
                     <li class="relative px-6 py-3">
                         <span aria-hidden="true"></span>
                         <a class="inline-flex items-center w-full text-m font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
-                           href="~/Doctor/TodayAppointments">
+                           href="~/Patient/AllPrescriptions">
+                            <svg class="w-5 h-5"
+                                 aria-hidden="true"
+                                 fill="none"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 stroke-width="2"
+                                 viewBox="0 0 35 35"
+                                 stroke="currentColor">
+                                <path d="M0 26.016q0 0.832 0.576 1.408t1.44 0.576q1.92 0.096 3.808 0.288t4.352 0.736 3.904 1.28q0.096 0.736 0.64 1.216t1.28 0.48 1.28-0.48 0.672-1.216q1.44-0.736 3.872-1.28t4.352-0.736 3.84-0.288q0.8 0 1.408-0.576t0.576-1.408v-24q0-0.832-0.576-1.408t-1.408-0.608q-0.032 0-0.096 0.032t-0.128 0q-9.504 0.256-12.672 2.528-1.024 0.768-1.12 1.44l-0.096-0.32q-0.576-1.28-3.168-2.176-3.648-1.28-10.528-1.472-0.064 0-0.128 0t-0.064-0.032q-0.832 0-1.44 0.608t-0.576 1.408v24zM4 24.128v-19.936q6.88 0.512 10.016 2.080v19.744q-3.104-1.536-10.016-1.888zM6.016 20q0.096 0 0.32 0.032t0.832 0.032 1.216 0.096 1.248 0.224 1.184 0.352 0.832 0.544 0.352 0.736v-4q0-0.096-0.032-0.224t-0.352-0.48-0.896-0.608-1.792-0.48-2.912-0.224v4zM6.016 12q0.096 0 0.32 0.032t0.832 0.032 1.216 0.096 1.248 0.224 1.184 0.352 0.832 0.544 0.352 0.736v-4q0-0.096-0.032-0.224t-0.352-0.48-0.896-0.608-1.792-0.48-2.912-0.224v4zM18.016 26.016v-19.744q3.104-1.568 9.984-2.080v19.936q-6.912 0.352-9.984 1.888zM20 22.016q0-0.576 0.608-0.992t1.504-0.576 1.76-0.288 1.504-0.128l0.64-0.032v-4q-1.696 0-2.944 0.224t-1.792 0.48-0.864 0.608-0.384 0.512l-0.032 0.192v4zM20 14.016q0-0.576 0.608-0.992t1.504-0.576 1.76-0.288 1.504-0.128l0.64-0.032v-4q-1.696 0-2.944 0.224t-1.792 0.48-0.864 0.608-0.384 0.512l-0.032 0.192v4z"></path>
+                            </svg>
+                            <span class="ml-4">View All Prescriptions</span>
+                        </a>
+                    </li>
+                    <li class="relative px-6 py-3">
+                        <span aria-hidden="true"></span>
+                        <a class="inline-flex items-center w-full text-m font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
+                           href="~/Patient/AllAppointments">
                             <svg class="w-5 h-5"
                                  aria-hidden="true"
                                  fill="none"
@@ -83,7 +100,7 @@
                                  stroke="currentColor">
                                 <path d="M0 26.016q0 2.496 1.76 4.224t4.256 1.76h20q2.464 0 4.224-1.76t1.76-4.224v-20q0-2.496-1.76-4.256t-4.224-1.76h-20q-2.496 0-4.256 1.76t-1.76 4.256v20zM4 26.016v-20q0-0.832 0.576-1.408t1.44-0.608h20q0.8 0 1.408 0.608t0.576 1.408v20q0 0.832-0.576 1.408t-1.408 0.576h-20q-0.832 0-1.44-0.576t-0.576-1.408zM8 10.016h16v-2.016h-16v2.016zM10.016 18.016h12v-2.016h-12v2.016zM12 14.016h8v-2.016h-8v2.016zM14.016 22.016h4v-2.016h-4v2.016z"></path>
                             </svg>
-                            <span class="ml-4">View Today's Appointments</span>
+                            <span class="ml-4">View All Appointments</span>
                         </a>
                     </li>
                 </ul>
@@ -126,80 +143,55 @@
             </header>
             <main class="h-full overflow-y-auto">
                 <div class="container px-6 mx-auto grid">
-                    <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-                        Dashboard
-                    </h2>
-
-                    <!-- Total Appointments Count (Pending, Accepted) -->
-                    <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
-                        <!-- Card -->
-                        <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
-                            <div class="card-header"><h3>Appointments</h3></div>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    @ViewBag.TotalAppointments
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- New Appointments Table-->
-                    <h3 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">New Appointments</h3>
+                    <!-- Current Appointment Table -->
+                    <h3 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">Today's Appointments</h3>
                     <form>
                         <div class="w-full overflow-hidden rounded-lg shadow-xs">
                             <div class="w-full overflow-x-auto">
                                 <table class="w-full whitespace-no-wrap">
                                     <thead>
                                         <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                                            <th class="px-4 py-3">Patient Name</th>
                                             <th class="px-4 py-3">Title</th>
-                                            <th class="px-4 py-3">Description</th>
-                                            <th class="px-4 py-3">Patient History</th>
-                                            <th class="px-4 py-3">Appointment DateTime</th>
-                                            <th class="px-4 py-3">Accept/Decline</th>
+                                            <th class="px-4 py-3">Medicines</th>
+                                            <th class="px-4 py-3">Usage</th>
+                                            <th class="px-4 py-3">FollowUp Session</th>
                                         </tr>
                                     </thead>
 
-                                    <!-- All Users List from Database -->
-                                    @if (ViewBag.NewAppointments != null)
+                                    
+                                    @if (ViewBag.CompletedAppointmentsPrescriptions != null)
                                     {
-                                        foreach (var appointment in ViewBag.NewAppointments)
+                                        foreach (var item in ViewBag.CompletedAppointmentsPrescriptions)
                                         {
                                             <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                                                 <tr class="text-gray-700 dark:text-gray-400">
                                                     <td class="px-4 py-3">
-                                                        <p class="font-semibold">
-                                                            @appointment.FirstName &nbsp; @appointment.LastName
-                                                        </p>
+                                                        <div class="flex items-center text-sm">
+                                                            <div>
+                                                                <p class="font-semibold">
+                                                                    @item.Title
+                                                                </p>
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                     <td class="px-4 py-3 text-sm">
-                                                        <p class="font-semibold">
-                                                            @appointment.Title
-                                                        </p>
+                                                        @item.Medicines
                                                     </td>
                                                     <td class="px-4 py-3 text-sm">
-                                                        @appointment.Description
+                                                        @item.Usage
                                                     </td>
                                                     <td class="px-4 py-3 text-sm">
-                                                        @appointment.PatientHistory
-                                                    </td>
-                                                    <td class="px-4 py-3 text-sm">
-                                                        @appointment.Appointment_DateTime
+                                                        @item.EndDate
                                                     </td>
 
-                                                    <td class="px-4 py-3 text-sm">
-                                                        <button onclick="Accepted(@appointment.ApID)" id="accepted" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors
-                                                                         duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-purple-600
-                                                                         hover:bg-blue-700 focus:outline-none focus:shadow-outline-purple">
-                                                            Accept
+                                                    @*<td class="px-4 py-3 text-sm">
+                                                        <button formaction=@Url.Action("UserProfile/"+item.DoctorID, "Admin") formmethod="post"
+                                                                type="submit" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors
+                                                                  duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600
+                                                                  hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                                                            View Profile
                                                         </button>
-
-                                                        <button onclick="Declined(@appointment.ApID)" id="declined" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors
-                                                                         duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600
-                                                                         hover:bg-red-700 focus:outline-none focus:shadow-outline-purple">
-                                                            Decline
-                                                        </button>
-                                                    </td>
+                                                    </td>*@
                                                 </tr>
                                             </tbody>
                                         }
@@ -214,50 +206,3 @@
     </div>
 </body>
 </html>
-
-<script>
-
-    //Appointment Accepted
-    function Accepted(apId) {
-        var id = apId;
-        $.ajax({
-            url: '/Doctor/Accepted/' + id,
-            data: { apId: id },
-            type: 'POST',
-            success: function (result) {
-                alert("Appointment Accepted")
-            }
-        });
-    }
-
-
-    //Appointment Declined
-    function Declined(apId) {
-        var id = apId;
-        $.ajax(
-            {
-                url: '/Doctor/Declined/' + id,
-                data: { apId: id },
-                type: 'POST',
-                success: function (result) {
-                    alert("Appointment Declined")
-                }
-            });
-    }
-
-    //Appointment Completed > when prescription is created
-    function Completed(appointmentID) {
-        var id = appointmentID;
-        debugger
-        $.ajax(
-            {
-                url: '/Doctor/Completed/' + id,
-                data: { apId: id },
-                type: 'POST',
-                success: function (result) {
-                    alert("Appointment Completed Successfully")
-                }
-            });
-    }
-
-</script>

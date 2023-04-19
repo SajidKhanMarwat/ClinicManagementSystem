@@ -25,16 +25,16 @@ namespace ClinicManagementSystem.Repository.EntityModel
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<AppointmentComment> AppointmentComments { get; set; }
-        public virtual DbSet<Appointment> Appointments { get; set; }
         public virtual DbSet<Doctor> Doctors { get; set; }
         public virtual DbSet<Patient> Patients { get; set; }
-        public virtual DbSet<Payment> Payments { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<User_Permissions> User_Permissions { get; set; }
         public virtual DbSet<Prescription> Prescriptions { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
+        public virtual DbSet<AppointmentComment> AppointmentComments { get; set; }
+        public virtual DbSet<Appointment> Appointments { get; set; }
     }
 }

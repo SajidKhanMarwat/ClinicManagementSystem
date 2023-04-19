@@ -40,10 +40,11 @@ namespace ClinicManagementSystem.Models
         private string _appointmentStatus = "Pending";
 
         public int FeesPaid { get; set; }
+        public double CardNumber { get; set; }
         public DateTime Appointment_DateTime { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public string PatientHistory { get; set; }
+        //public string PatientHistory { get; set; }
         public string Status
         {
             get { return _appointmentStatus; }
@@ -61,11 +62,20 @@ namespace ClinicManagementSystem.Models
         public int DoctorID { get; set; }
         public string CreatedOn { get; set; }
         public string Appointment_DateTime { get; set; }
+        public string Appointment_Status { get; set; }
     }
 
     public class PaymentsModel
     {
         public double CardNumber { get; set; }
         public decimal Amount { get; set; }
+    }
+
+    public class PrescriptionsCompleted
+    {
+        public string Title { get; set; }
+        public string Medicines { get; set; }
+        public string Usage { get; set; }
+        public DateTime EndDate { get; set; }
     }
 }

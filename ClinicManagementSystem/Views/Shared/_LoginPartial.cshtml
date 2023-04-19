@@ -5,15 +5,16 @@
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-    @Html.AntiForgeryToken()
+    
+        @Html.AntiForgeryToken()
 
-    <ul class="navbar-nav navbar-right">
-        <li>
-            @*@Html.ActionLink("LogOut", "Login", "Account")
-            @Html.ActionLink("Hello " + User.Identity.Name + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class= "nav-item mx-0 mx-lg-1 py-3 px-0 px-lg-3 rounded" })*@
-        </li>
-        <li><a class="nav-item mx-0 mx-lg-1 py-3 px-0 px-lg-3 rounded" href="javascript:document.getElementById('logoutForm').submit()">Log Out</a></li>
-    </ul>
+<ul class="navbar-nav navbar-right">
+    @*<li>
+        @Html.ActionLink("LogOut", "Login", "Account")
+            @Html.ActionLink("Hello " + User.Identity.Name + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class= "nav-item mx-0 mx-lg-1 py-3 px-0 px-lg-3 rounded" })
+    </li>*@
+    <li><a class="nav-item mx-0 mx-lg-1 py-3 px-0 px-lg-3 rounded" href="javascript:document.getElementById('logoutForm').submit()">Log Out</a></li>
+</ul>
     }
 }
 else

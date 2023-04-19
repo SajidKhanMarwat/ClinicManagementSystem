@@ -21,18 +21,42 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
+    <link href="~/Content/css/styles.css" rel="stylesheet" />
+    <link href="~/Content/js/scripts.js" rel="stylesheet" />
+
 </head>
 <body>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="/Home/Index">CMS</a>
+            <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto navbar-nav flex-grow-1">
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="~/Home/Index">Home</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="~/Home/about">About</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="~/Home/contact">Contact</a></li>
+
+                </ul>
+
+                @Html.Partial("_LoginPartial")
+
+            </div>
+        </div>
+    </nav>
+
     <div class="flex h-screen bg-gray-50 dark:bg-gray-900"
          :class="{ 'overflow-hidden': isSideMenuOpen }">
         <!-- Desktop sidebar -->
         <aside class="z-20 hidden w-64 overflow-y-auto dark:bg-gray-800 md:block flex-shrink-0" style="background-color: #E7E9EB">
-            <div class="py-4 text-gray-500 dark:text-gray-400">
-                <ul class="mt-6">
+            <div style="padding-top: 90px;">
+                <ul class="mt-6" style="padding-left: 0px;">
                     <li class="relative px-6 py-3">
-                        <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
-                              aria-hidden="true"></span>
-                        <a class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
+                        <span aria-hidden="true"></span>
+                        <a class="inline-flex items-center w-full text-m font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
                            href="~/Patient/Index">
                             <svg class="w-5 h-5"
                                  aria-hidden="true"
@@ -40,11 +64,45 @@
                                  stroke-linecap="round"
                                  stroke-linejoin="round"
                                  stroke-width="2"
-                                 viewBox="0 0 24 24"
+                                 viewBox="0 0 22 22"
                                  stroke="currentColor">
                                 <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                             </svg>
                             <span class="ml-4">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="relative px-6 py-3">
+                        <span aria-hidden="true"></span>
+                        <a class="inline-flex items-center w-full text-m font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
+                           href="~/Patient/AllPrescriptions">
+                            <svg class="w-5 h-5"
+                                 aria-hidden="true"
+                                 fill="none"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 stroke-width="2"
+                                 viewBox="0 0 35 35"
+                                 stroke="currentColor">
+                                <path d="M0 26.016q0 0.832 0.576 1.408t1.44 0.576q1.92 0.096 3.808 0.288t4.352 0.736 3.904 1.28q0.096 0.736 0.64 1.216t1.28 0.48 1.28-0.48 0.672-1.216q1.44-0.736 3.872-1.28t4.352-0.736 3.84-0.288q0.8 0 1.408-0.576t0.576-1.408v-24q0-0.832-0.576-1.408t-1.408-0.608q-0.032 0-0.096 0.032t-0.128 0q-9.504 0.256-12.672 2.528-1.024 0.768-1.12 1.44l-0.096-0.32q-0.576-1.28-3.168-2.176-3.648-1.28-10.528-1.472-0.064 0-0.128 0t-0.064-0.032q-0.832 0-1.44 0.608t-0.576 1.408v24zM4 24.128v-19.936q6.88 0.512 10.016 2.080v19.744q-3.104-1.536-10.016-1.888zM6.016 20q0.096 0 0.32 0.032t0.832 0.032 1.216 0.096 1.248 0.224 1.184 0.352 0.832 0.544 0.352 0.736v-4q0-0.096-0.032-0.224t-0.352-0.48-0.896-0.608-1.792-0.48-2.912-0.224v4zM6.016 12q0.096 0 0.32 0.032t0.832 0.032 1.216 0.096 1.248 0.224 1.184 0.352 0.832 0.544 0.352 0.736v-4q0-0.096-0.032-0.224t-0.352-0.48-0.896-0.608-1.792-0.48-2.912-0.224v4zM18.016 26.016v-19.744q3.104-1.568 9.984-2.080v19.936q-6.912 0.352-9.984 1.888zM20 22.016q0-0.576 0.608-0.992t1.504-0.576 1.76-0.288 1.504-0.128l0.64-0.032v-4q-1.696 0-2.944 0.224t-1.792 0.48-0.864 0.608-0.384 0.512l-0.032 0.192v4zM20 14.016q0-0.576 0.608-0.992t1.504-0.576 1.76-0.288 1.504-0.128l0.64-0.032v-4q-1.696 0-2.944 0.224t-1.792 0.48-0.864 0.608-0.384 0.512l-0.032 0.192v4z"></path>
+                            </svg>
+                            <span class="ml-4">View All Prescriptions</span>
+                        </a>
+                    </li>
+                    <li class="relative px-6 py-3">
+                        <span aria-hidden="true"></span>
+                        <a class="inline-flex items-center w-full text-m font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
+                           href="~/Patient/AllAppointments">
+                            <svg class="w-5 h-5"
+                                 aria-hidden="true"
+                                 fill="none"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 stroke-width="2"
+                                 viewBox="0 0 35 35"
+                                 stroke="currentColor">
+                                <path d="M0 26.016q0 2.496 1.76 4.224t4.256 1.76h20q2.464 0 4.224-1.76t1.76-4.224v-20q0-2.496-1.76-4.256t-4.224-1.76h-20q-2.496 0-4.256 1.76t-1.76 4.256v20zM4 26.016v-20q0-0.832 0.576-1.408t1.44-0.608h20q0.8 0 1.408 0.608t0.576 1.408v20q0 0.832-0.576 1.408t-1.408 0.576h-20q-0.832 0-1.44-0.576t-0.576-1.408zM8 10.016h16v-2.016h-16v2.016zM10.016 18.016h12v-2.016h-12v2.016zM12 14.016h8v-2.016h-8v2.016zM14.016 22.016h4v-2.016h-4v2.016z"></path>
+                            </svg>
+                            <span class="ml-4">View All Appointments</span>
                         </a>
                     </li>
                 </ul>
@@ -117,17 +175,21 @@
                                                     <div class="mb-3">
                                                         <textarea name="Description" class="form-control" placeholder="Description"></textarea>
                                                     </div>
-                                                    <div class="mb-3">
+                                                    @*<div class="mb-3">
                                                         <textarea name="PatientHistory" class="form-control" placeholder="Patient History"></textarea>
-                                                    </div>
+                                                    </div>*@
                                                     <div class="mb-3 custom-select" style="width:200px;">
+                                                        <label class="text-black">Choose A Doctor:</label> &nbsp;
                                                         <input name="DoctorID" id="docID" style="display:none" />
                                                         <select name="DoctorSelect" class="text-black" id="AvailableDoctors">
                                                             <option value="">Select Doctor</option>
                                                         </select>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <input name="FeesPaid" type="number" class="form-control" placeholder="Fees" />
+                                                        <input name="CardNumber" type="text" class="form-control" placeholder="Card Number" />
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <input name="FeesPaid" type="text" class="form-control" placeholder="Enter Fees" />
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="date" class="col-1 col-form-label text-black">Date</label>
@@ -148,12 +210,12 @@
                             </div>
                         </div>
 
-                        <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+                        @*<div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
                             <div class="card-header"><h3>View Prescriptions</h3></div>
                             <div class="card-body">
                                 <h5 class="card-title">Check your Prescriptions.</h5>
                                 <hr />
-                                <button class="btn btn-light btn-lg" data-bs-toggle="modal" data-bs-target="#viewAppointments" onclick="ViewPrescriptionBtnClick()">Check</button>
+                                <button class="btn btn-light btn-lg" data-bs-toggle="modal" data-bs-target="#viewAppointments" onclick="ViewPrescriptionBtnClick()">View</button>
                                 <div class="modal fade" id="viewAppointments" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-xl">
                                         <div class="modal-content">
@@ -178,45 +240,43 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
 
                         <!--Payment Card-->
+                        <!--<div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+                        <div class="card-header"><h3>Add</h3></div>
+                        <div class="card-body">
+                            <h4 class="card-title">Add Payment to your account</h4>
+                            <hr />
 
-                        <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
-                            <div class="card-header"><h3>Add</h3></div>
-                            <div class="card-body">
-                                <h4 class="card-title">Add Payment to your account</h4>
-                                <hr />
+                            <button class="btn btn-light btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#addPayment" data-bs-whatever="@@mdo">Add Now</button>
+                            <div class="modal fade" id="addPayment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">-->
+                        @* Add Payment to Account *@
+                        <!--<form id="AddPayment" method='POST'>
+                                                <div class="mb-3">
+                                                    <input name="CardNumber" id="card" type="text" class="form-control" placeholder="xxxx xxxx xxxx Card Number" />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input name="Amount" id="amount" type="number" class="form-control" placeholder="Amount" />
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button onclick="AddPayment()" type="submit" class="btn btn-primary">Add</button>
+                                                </div>
+                                            </form>
 
-                                <button class="btn btn-light btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#addPayment" data-bs-whatever="@@mdo">Add Now</button>
-                                <div class="modal fade" id="addPayment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-
-                                                @* Add Payment to Account *@
-                                                <form id="AddPayment" method='POST'>
-                                                    <div class="mb-3">
-                                                        <input name="CardNumber" id="card" type="text" class="form-control" placeholder="xxxx xxxx xxxx Card Number" />
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <input name="Amount" id="amount" type="number" class="form-control" placeholder="Amount" />
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button onclick="AddPayment()" type="submit" class="btn btn-primary">Add</button>
-                                                    </div>
-                                                </form>
-
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>-->
 
 
                     </div>
@@ -230,6 +290,7 @@
                                     <thead>
                                         <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                                             <th class="px-4 py-3">Title</th>
+                                            <th class="px-4 py-3">Status</th>
                                             <th class="px-4 py-3">Created On</th>
                                             <th class="px-4 py-3">DateTime</th>
                                             <th class="px-4 py-3">Doctor</th>
@@ -237,6 +298,63 @@
                                     </thead>
 
                                     @* Todays from Database *@
+                                    @if (ViewBag.TodayAppointments != null)
+                                    {
+                                        foreach (var item in ViewBag.TodayAppointments)
+                                        {
+                                            <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                                                <tr class="text-gray-700 dark:text-gray-400">
+                                                    <td class="px-4 py-3">
+                                                        <div class="flex items-center text-sm">
+                                                            <div>
+                                                                <p class="font-semibold">
+                                                                    @item.Title
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-4 py-3 text-sm">
+                                                        @item.Appointment_Status
+                                                    </td>
+                                                    <td class="px-4 py-3 text-sm">
+                                                        @item.CreatedOn
+                                                    </td>
+                                                    <td class="px-4 py-3 text-sm">
+                                                        @item.Appointment_DateTime
+                                                    </td>
+
+                                                    <td class="px-4 py-3 text-sm">
+                                                        <button formaction=@Url.Action("UserProfile/"+item.DoctorID, "Admin") formmethod="post"
+                                                                type="submit" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors
+                                                                  duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600
+                                                                  hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                                                            View Profile
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        }
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                    </form>
+                    <hr />
+                    <!-- All Appointments Table -->
+                    @*<h3 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">All Appointments</h3>
+                    <form>
+                        <div class="w-full overflow-hidden rounded-lg shadow-xs">
+                            <div class="w-full overflow-x-auto">
+                                <table class="w-full whitespace-no-wrap">
+                                    <thead>
+                                        <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                                            <th class="px-4 py-3">Title</th>
+                                            <th class="px-4 py-3">Status</th>
+                                            <th class="px-4 py-3">Created On</th>
+                                            <th class="px-4 py-3">DateTime</th>
+                                            <th class="px-4 py-3">Doctor</th>
+                                        </tr>
+                                    </thead>
                                     @if (ViewBag.AllAppointments != null)
                                     {
                                         foreach (var item in ViewBag.AllAppointments)
@@ -253,57 +371,7 @@
                                                         </div>
                                                     </td>
                                                     <td class="px-4 py-3 text-sm">
-                                                        @item.CreatedOn
-                                                    </td>
-                                                    <td class="px-4 py-3 text-sm">
-                                                        @item.Appointment_DateTime
-                                                    </td>
-
-                                                    <td class="px-4 py-3 text-sm">
-                                                        <button formaction=@Url.Action("UserProfile/"+item.DoctorID, "Admin") formmethod="post"
-                                                                type="submit" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors
-                                                                  duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600
-                                                                  hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                                                            View Profile
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        }
-                                    }
-                                </table>
-                            </div>
-                        </div>
-                    </form>
-
-                    <!-- All Appointments Table -->
-                    <h3 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">All Appointments</h3>
-                    <form>
-                        <div class="w-full overflow-hidden rounded-lg shadow-xs">
-                            <div class="w-full overflow-x-auto">
-                                <table class="w-full whitespace-no-wrap">
-                                    <thead>
-                                        <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                                            <th class="px-4 py-3">Title</th>
-                                            <th class="px-4 py-3">Created On</th>
-                                            <th class="px-4 py-3">DateTime</th>
-                                            <th class="px-4 py-3">Doctor</th>
-                                        </tr>
-                                    </thead>
-                                    @if (ViewBag.CurrentAppointments != null)
-                                    {
-                                        foreach (var item in ViewBag.CurrentAppointments)
-                                        {
-                                            <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                                                <tr class="text-gray-700 dark:text-gray-400">
-                                                    <td class="px-4 py-3">
-                                                        <div class="flex items-center text-sm">
-                                                            <div>
-                                                                <p class="font-semibold">
-                                                                    @item.Title
-                                                                </p>
-                                                            </div>
-                                                        </div>
+                                                        @item.Appointment_Status
                                                     </td>
                                                     <td class="px-4 py-3 text-sm">
                                                         @item.CreatedOn
@@ -327,7 +395,7 @@
                                 </table>
                             </div>
                         </div>
-                    </form>
+                    </form>*@
                 </div>
             </main>
         </div>
@@ -367,7 +435,7 @@
             success: function (doctors) {
                 var list = "";
                 $.each(doctors, function (i, item) {
-                    list += "<option value='" + item.UserID + "' class='text-black'>" + item.FirstName + " " + item.LastName + " " + "(" + item.Specialization + ")" + "</option>";
+                    list += "<option value='" + item.UserID + "' class='text-black'>" + item.FirstName + " " + item.LastName + " " + "(" + item.Specialization + ")" + " " +  "Fees: " + item.Fees + "" +"</option>";
                 });
                 $("#AvailableDoctors").append(list);
             }

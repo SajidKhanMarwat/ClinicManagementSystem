@@ -168,6 +168,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModel.cs" />
+    <Compile Include="Models\AdminModels.cs" />
     <Compile Include="Models\DoctorViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\PatientViewModel.cs" />
@@ -319,6 +320,12 @@
     <Content Include="Views\NotFound\MissingPage.cshtml" />
     <Content Include="Views\Doctor\Index.cshtml" />
     <Content Include="Views\Admin\AddDoctor.cshtml" />
+    <Content Include="Views\Patient\AllAppointments.cshtml" />
+    <Content Include="Views\Patient\AllPrescriptions.cshtml" />
+    <Content Include="Views\Doctor\TodayAppointments.cshtml" />
+    <Content Include="Views\Admin\AllPatients.cshtml" />
+    <Content Include="Views\Admin\AllDoctors.cshtml" />
+    <Content Include="Views\Admin\AllAppointments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

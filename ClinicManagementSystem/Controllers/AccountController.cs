@@ -72,21 +72,21 @@ namespace ClinicManagementSystem.Controllers
         [HttpPost]
         public ActionResult Login(LoginViewModel viewModel)
         {
-            bool auth = unitOfWork.UserRepository.GetAll().Any(user => user.Email == viewModel.Email && user.Password == viewModel.Password);
+            bool auth = unitOfWork.UserRepository.GetAll().Any(user => user.Email == viewModel.Email && user.Password == viewModel.Password && user.IsDeleted == false);
 
             if (auth == true)
             {
-                
-
                 var currentUserRole = from u in unitOfWork.UserRepository.GetAll()
-                                     join r in unitOfWork.RoleRepository.GetAll() on u.RoleID equals r.RoleID
-                                     where u.Email == viewModel.Email && u.Password == viewModel.Password
-                                     select new
-                                     {
-                                         u.UserID,
-                                         u.FirstName,
-                                         r.Name
-                                     };
+                                      join r in unitOfWork.RoleRepository.GetAll() on u.RoleID equals r.RoleID
+                                      where u.Email == viewModel.Email 
+                                      && u.Password == viewModel.Password
+                                      select new
+                                      {
+                                          u.UserID,
+                                          u.FirstName,
+                                          r.Name,
+                                          u.IsDeleted
+                                      };
 
                     var currentUserID = currentUserRole.FirstOrDefault()?.UserID;
                     if (currentUserID.HasValue)
@@ -108,7 +108,7 @@ namespace ClinicManagementSystem.Controllers
                     {
                         return RedirectToAction("Index", "Doctor");
                     }
-                }
+            }
             return View();
         }
 
