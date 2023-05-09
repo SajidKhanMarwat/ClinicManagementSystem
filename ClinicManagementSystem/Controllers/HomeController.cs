@@ -16,27 +16,18 @@ namespace ClinicManagementSystem.Controllers
         {
             var doctors = (from doctor in _UnitOfWork.DoctorRepository.GetAll()
                            join user in _UnitOfWork.UserRepository.GetAll() on doctor.UserID equals user.UserID
-                           select new
+                           where doctor.IsDeleted == false
+                           select new AvailableDoctorsModel()
                            {
-                               user.FirstName,
-                               user.LastName,
-                               doctor.Specialization,
-                               doctor.Education,
-                               doctor.Experience,
-                               doctor.Fees
+                               FirstName = user.FirstName,
+                               LastName = user.LastName,
+                               Specialization = doctor.Specialization,
+                               Education = doctor.Education,
+                               Experience = doctor.Experience ?? 0,
+                               Fees = doctor.Fees ?? 0
                            }).ToList();
 
-            //AvailableDoctorsModel doctorsModel = new AvailableDoctorsModel()
-            //{
-            //    FirstName = doctors.First().FirstName,
-            //    LastName = doctors.First().LastName,
-            //    Specialization = doctors.First().Specialization,
-            //    Education = doctors.First().Education,
-            //    Experience = (int)doctors.First().Experience,
-            //    Fees = (int)doctors.First().Fees
-            //};
-
-            //ViewBag.Doctors = doctors;
+            ViewBag.Doctors = doctors;
 
             return View();
         }

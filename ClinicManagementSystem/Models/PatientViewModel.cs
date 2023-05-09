@@ -56,6 +56,15 @@ namespace ClinicManagementSystem.Models
         public int DoctorID { get; set; }
     }
 
+    public class AllAppointments
+    {
+        public int Aid { get; set; }
+        public string Title { get; set; }
+        public string Status { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public DateTime Appointment_DateTime { get; set; }
+    }
+
     public class GetCurrentAppointments
     {
         public string Title { get; set; }

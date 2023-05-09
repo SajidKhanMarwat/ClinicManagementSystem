@@ -45,7 +45,7 @@ namespace ClinicManagementSystem.Controllers
                                                join d in unitOfWork.DoctorRepository.GetAll() on a.DoctorID equals d.DoctorID
                                                where p.UserID == int.Parse(Session["UserID"].ToString()) &&
                                                a.Status == AppointmentStatus.Accepted.ToString() &&
-                                               a.Appointment_DateTime == DateTime.Today
+                                               a.Appointment_DateTime >= DateTime.Now
                                                select new GetCurrentAppointments
                                                {
                                                    Title = a.Title,
@@ -55,9 +55,9 @@ namespace ClinicManagementSystem.Controllers
                                                    Appointment_Status = a.Status
                                                }).ToList();
 
-                    ViewBag.TodayAppointments = todayAppointments;
+                    //ViewBag.TodayAppointments = todayAppointments;
 
-                    return View();
+                    return View(todayAppointments);
                 }
                 catch (Exception)
                 {
@@ -99,10 +99,11 @@ namespace ClinicManagementSystem.Controllers
                                            CreatedOn = appointmentTable.CreatedOn.ToString(),
                                            Appointment_DateTime = appointmentTable.Appointment_DateTime.ToString(),
                                            Appointment_Status = appointmentTable.Status
-                                       });
+                                       }).ToList();
 
-                ViewBag.AllAppointments = allAppointments;
-                return View();
+                //ViewBag.AllAppointments = allAppointments;
+                
+                return View(allAppointments);
             }
             else
             {
@@ -134,11 +135,13 @@ namespace ClinicManagementSystem.Controllers
                                                  Title = appointment.Title,
                                                  Medicines = prescription.Medicines,
                                                  Usage = prescription.Usage,
-                                                 EndDate = (DateTime)prescription.EndDate
+                                                 EndDate = (DateTime)prescription.EndDate,
                                              }).ToList();
 
-                ViewBag.CompletedAppointmentsPrescriptions = completedAppointmentsPrescriptions;
-                return View();
+                //ViewBag.CompletedAppointmentsPrescriptions = completedAppointmentsPrescriptions;
+
+
+                return View(completedAppointmentsPrescriptions);
             }
             else
             {
@@ -185,6 +188,9 @@ namespace ClinicManagementSystem.Controllers
         {
             var availableDoctors = (from doctor in unitOfWork.DoctorRepository.GetAll()
                                     join user in unitOfWork.UserRepository.GetAll() on doctor.UserID equals user.UserID
+                                    where user.IsDeleted == false &&
+                                    doctor.UserID == user.UserID &&
+                                    user.RoleID == 2
                                     select new
                                     {
                                         doctor.UserID,
@@ -203,58 +209,52 @@ namespace ClinicManagementSystem.Controllers
         //Create Appointment
         public JsonResult CreateAppointment(AppointmentsDetails model)
         {
+            try
+            {
                 //Getting DoctorID by comparing the UserID of particular Doctor in Doctor Table
-                var doctor = unitOfWork.DoctorRepository.GetAll().Where(u => u.UserID == model.DoctorID && u.Fees == model.FeesPaid).FirstOrDefault();
+                var doctor = unitOfWork.DoctorRepository.GetAll().Where(d => d.UserID == model.DoctorID).FirstOrDefault();
                 //Get Patient by session
                 var patient = unitOfWork.PatientRepository.GetAll().Where(u => u.UserID == int.Parse(Session["UserID"].ToString())).FirstOrDefault();
 
-            //var paymentCheck = (from payment in unitOfWork.PaymentRepository.GetAll()
-            //                 join p in unitOfWork.PatientRepository.GetAll() on payment.PaymentID equals p.PatientID
-            //                 join a in unitOfWork.AppointmentRepository.GetAll() on payment.AppointmentID equals a.AppointmentID
-            //                 where payment.PaymentID == p.PatientID &&
-            //                 payment.AppointmentID == a.AppointmentID &&
-            //                 p.UserID == int.Parse(Session["UserID"].ToString())
-            //                 select new
-            //                 {
-            //                     //payment.PaymentID,
-            //                     //payment.AppointmentID,
-            //                     //payment.Date
-            //                 });
-
-            if (doctor.Fees == model.FeesPaid)
-            {
-                var newAppointment = new Appointment()
+                if (doctor.Fees == model.FeesPaid)
                 {
-                    Title = model.Title,
-                    Description = model.Description,
-                    FeesPaid = model.FeesPaid,
-                    Appointment_DateTime = model.Appointment_DateTime,
-                    //PatientHistory = model.PatientHistory,
-                    Status = AppointmentStatus.Pending.ToString(),
-                    DoctorID = doctor.DoctorID,
-                    PatientID = patient.PatientID,
-                    CreatedOn = DateTime.Today,
-                };
+                    var newAppointment = new Appointment()
+                    {
+                        Title = model.Title,
+                        Description = model.Description,
+                        FeesPaid = model.FeesPaid,
+                        Appointment_DateTime = model.Appointment_DateTime,
+                        Status = AppointmentStatus.Pending.ToString(),
+                        DoctorID = doctor.DoctorID,
+                        PatientID = patient.PatientID,
+                        CreatedOn = DateTime.Today,
+                        CreatedBy = string.Empty ?? Session["FirstName"].ToString() +" "+ Session["LastName"].ToString() //Null Coalesing
+                    };
 
-                unitOfWork.AppointmentRepository.AddNew(newAppointment);
+                    unitOfWork.AppointmentRepository.AddNew(newAppointment);
 
-                var newPayments = new Payment()
+                    var newPayment = new Payment()
+                    {
+                        AppointmentID = newAppointment.AppointmentID,
+                        CardNumber = (int?)model.CardNumber,
+                        Amount = newAppointment.FeesPaid,
+                        Date = newAppointment.CreatedOn,
+                        IsDeleted = false,
+                        CreatedBy = string.Empty ?? Session["FirstName"].ToString() + " " + Session["LastName"].ToString() //Null Coalesing
+                    };
+
+                    unitOfWork.PaymentRepository.AddNew(newPayment);
+                    return Json(JsonRequestBehavior.AllowGet);
+                }
+                else
                 {
-                    AppointmentID = newAppointment.AppointmentID,
-                    CardNumber = (int?)model.CardNumber,
-                    Amount = newAppointment.FeesPaid,
-                    Date = newAppointment.CreatedOn,
-                    IsDeleted = false,
-                };
-
-                unitOfWork.PaymentRepository.AddNew(newPayments);
-                return Json(JsonRequestBehavior.AllowGet);
+                    return Json(null);
+                }
             }
-            else
+            catch (Exception)
             {
                 return Json(null);
-            }
-            
+            }            
         }
 
 

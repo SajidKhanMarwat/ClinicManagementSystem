@@ -51,6 +51,15 @@
         <!-- Desktop sidebar -->
         <aside class="z-20 hidden w-64 overflow-y-auto dark:bg-gray-800 md:block flex-shrink-0" style="background-color: #E7E9EB">
             <div style="padding-top: 90px;">
+                <br />
+                <div class="py-3 px-0 px-lg-3" style="background-color: rgb(44 62 80); color: white; display: grid; grid-template-columns: auto 1fr; grid-gap: 15px; align-items: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                    </svg>
+                    <b>@Session["FirstName"] &nbsp; @Session["LastName"]</b>
+                </div>
+
                 <ul class="mt-6" style="padding-left: 0px;">
                     <li class="relative px-6 py-3">
                         <span aria-hidden="true"></span>
@@ -127,14 +136,14 @@
             <main class="h-full overflow-y-auto">
                 <div class="container px-6 mx-auto grid">
                     <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-                        Dashboard
+                        
                     </h2>
-
+                    <br />
                     <!-- Total Appointments Count (Pending, Accepted) -->
                     <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
                         <!-- Card -->
                         <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
-                            <div class="card-header"><h3>Appointments</h3></div>
+                            <div class="card-header"><h3>All Appointments</h3></div>
                             <div class="card-body">
                                 <h4 class="card-title">
                                     @ViewBag.TotalAppointments
@@ -144,7 +153,7 @@
                     </div>
 
                     <!-- New Appointments Table-->
-                    <h3 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">New Appointments</h3>
+                    <h3 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">New Appointments Requests</h3>
                     <form>
                         <div class="w-full overflow-hidden rounded-lg shadow-xs">
                             <div class="w-full overflow-x-auto">
@@ -245,19 +254,19 @@
             });
     }
 
-    //Appointment Completed > when prescription is created
-    function Completed(appointmentID) {
-        var id = appointmentID;
-        debugger
-        $.ajax(
-            {
-                url: '/Doctor/Completed/' + id,
-                data: { apId: id },
-                type: 'POST',
-                success: function (result) {
-                    alert("Appointment Completed Successfully")
-                }
-            });
-    }
+    ////Appointment Completed, when prescription is created
+    //function Completed(appointmentID) {
+    //    var id = appointmentID;
+    //    debugger
+    //    $.ajax(
+    //        {
+    //            url: '/Doctor/Completed/' + id,
+    //            data: { apId: id },
+    //            type: 'POST',
+    //            success: function (result) {
+    //                alert("Appointment Completed Successfully")
+    //            }
+    //        });
+    //}
 
 </script>

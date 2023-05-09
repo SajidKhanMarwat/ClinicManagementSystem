@@ -53,6 +53,15 @@
         <!-- Desktop sidebar -->
         <aside class="z-20 hidden w-64 overflow-y-auto dark:bg-gray-800 md:block flex-shrink-0" style="background-color: #E7E9EB">
             <div style="padding-top: 90px;">
+                <br />
+                <div class="py-3 px-0 px-lg-3" style="background-color: rgb(44 62 80); color: white; display: grid; grid-template-columns: auto 1fr; grid-gap: 15px; align-items: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                    </svg>
+                    <b>@Session["FirstName"] &nbsp; @Session["LastName"]</b>
+                </div>
+
                 <ul class="mt-6" style="padding-left: 0px;">
                     <li class="relative px-6 py-3">
                         <span aria-hidden="true"></span>
@@ -148,18 +157,23 @@
                                             <div class="form-group">
                                                 <input name="FirstName" type="text" class="form-control" placeholder="First Name *" value="" />
                                             </div>
+                                            <br />
                                             <div class="form-group">
                                                 <input name="LastName" type="text" class="form-control" placeholder="Last Name" value="" />
                                             </div>
+                                            <br />
                                             <div class="form-group">
                                                 <input name="Email" type="text" class="form-control" placeholder="Email *" value="" />
                                             </div>
+                                            <br />
                                             <div class="form-group">
                                                 <input name="Password" type="password" class="form-control" placeholder="Password *" value="" />
                                             </div>
+                                            <br />
                                             <div class="form-group">
                                                 <input name="Specialization" type="text" class="form-control" placeholder="Specialization" value="" />
                                             </div>
+                                            <br />
                                             <div class="form-group">
                                                 <div class="maxl">
                                                     <label class="radio inline">
@@ -177,18 +191,23 @@
                                             <div class="form-group">
                                                 <input name="Phone" type="email" class="form-control" placeholder="Phone" value="" />
                                             </div>
+                                            <br />
                                             <div class="form-group">
                                                 <input type="text" name="Address" class="form-control" placeholder="Address *" value="" />
                                             </div>
+                                            <br />
                                             <div class="form-group">
                                                 <input type="text" name="Education" class="form-control" placeholder="Education *" value="" />
                                             </div>
+                                            <br />
                                             <div class="form-group">
                                                 <input type="text" name="Experience" class="form-control" placeholder="Experience *" value="" />
                                             </div>
+                                            <br />
                                             <div class="form-group">
                                                 <input type="number" name="Fees" class="form-control" placeholder="Fees" value="" />
                                             </div>
+                                            <br />
                                             <div class="form-group">
                                                 <input type="text" onfocusin="(this.type='date')" onfocusout="(this.type='text')" name="Age" class="form-control" placeholder="DateOfBirth" value="" />
                                             </div>
@@ -336,6 +355,9 @@
             data: $('#addDoctor').serialize(),
             success: function (response) {
                 alert("Successfully Added")
+            },
+            error: function (response) {
+                alert("Doctor not registerd")
             }
         });
     }

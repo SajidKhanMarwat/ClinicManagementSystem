@@ -5,7 +5,6 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="5be8aa4d501f43c59bd1b54887058df7" Name="Diagram1">
-        <EntityTypeShape EntityType="CMSModel.Doctor" Width="1.5" PointX="5.25" PointY="14.75" IsExpanded="false" />
         <EntityTypeShape EntityType="CMSModel.Patient" Width="1.5" PointX="5.25" PointY="11.25" IsExpanded="false" />
         <EntityTypeShape EntityType="CMSModel.Permission" Width="1.5" PointX="0.5" PointY="6.875" IsExpanded="false" />
         <EntityTypeShape EntityType="CMSModel.Role" Width="1.5" PointX="0.75" PointY="9.625" IsExpanded="false" />
@@ -15,17 +14,18 @@
         <AssociationConnector Association="CMSModel.FK_User_Permissions_Roles" />
         <EntityTypeShape EntityType="CMSModel.Prescription" Width="1.5" PointX="9.125" PointY="14.875" IsExpanded="false" />
         <EntityTypeShape EntityType="CMSModel.User" Width="1.875" PointX="3" PointY="12.875" IsExpanded="false" />
-        <AssociationConnector Association="CMSModel.FK_Doctors_Users" />
         <AssociationConnector Association="CMSModel.FK_Patients_Users" />
         <AssociationConnector Association="CMSModel.FK_Users_Roles" />
         <EntityTypeShape EntityType="CMSModel.Payment" Width="1.5" PointX="8.625" PointY="9.875" IsExpanded="false" />
         <EntityTypeShape EntityType="CMSModel.AppointmentComment" Width="1.5" PointX="9.75" PointY="12.375" IsExpanded="false" />
         <EntityTypeShape EntityType="CMSModel.Appointment" Width="1.5" PointX="7.5" PointY="12.625" IsExpanded="false" />
         <AssociationConnector Association="CMSModel.FK_AppointmentComment_Appointments" />
-        <AssociationConnector Association="CMSModel.FK_Appointments_Doctors" />
         <AssociationConnector Association="CMSModel.FK_Appointments_Patients" />
         <AssociationConnector Association="CMSModel.FK_Payments_Appointments" />
         <AssociationConnector Association="CMSModel.FK_Prescriptions_Appointments" />
+        <EntityTypeShape EntityType="CMSModel.Doctor" Width="1.5" PointX="5.625" PointY="14.125" IsExpanded="false" />
+        <AssociationConnector Association="CMSModel.FK_Appointments_Doctors" />
+        <AssociationConnector Association="CMSModel.FK_Doctors_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

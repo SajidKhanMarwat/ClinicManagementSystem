@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<ClinicManagementSystem.Models.AllPatients>
+@{
     Layout = null;
 }
 
@@ -51,6 +52,14 @@
         <!-- Desktop sidebar -->
         <aside class="z-20 hidden w-64 overflow-y-auto dark:bg-gray-800 md:block flex-shrink-0" style="background-color: #E7E9EB">
             <div style="padding-top: 90px;">
+                <br />
+                <div class="py-3 px-0 px-lg-3" style="background-color: rgb(44 62 80); color: white; display: grid; grid-template-columns: auto 1fr; grid-gap: 15px; align-items: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                    </svg>
+                    <b>@Session["FirstName"] &nbsp; @Session["LastName"]</b>
+                </div>
                 <ul class="mt-6" style="padding-left: 0px;">
                     <li class="relative px-6 py-3">
                         <span aria-hidden="true"></span>
@@ -136,8 +145,7 @@
             </header>
             <main class="h-full overflow-y-auto">
                 <div class="container px-6 mx-auto grid">
-
-
+                    <br />
                     <h3 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">All Patients</h3>
                     <form>
                         <div class="w-full overflow-hidden rounded-lg shadow-xs">
@@ -151,14 +159,17 @@
                                             <th class="px-4 py-3">Gender</th>
                                             <th class="px-4 py-3">Age</th>
                                             <th class="px-4 py-3">Address</th>
+                                            <th class="px-4 py-3">Profile</th>
                                             @*<th class="px-4 py-3">Delete</th>
                                 <th class="px-4 py-3">Update</th>*@
                                         </tr>
                                     </thead>
-                                    @if (ViewBag.Patients != null)
+                                    @*@if (ViewBag.Patients != null)
                                     {
                                         foreach (var item in ViewBag.Patients)
-                                        {
+                                        {*@
+                                    @foreach(var item in Model)
+                                    { 
                                             <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                                                 <tr class="text-gray-700 dark:text-gray-400">
                                                     <td class="px-4 py-3">
@@ -187,17 +198,24 @@
                                                     </td>
 
                                                     <td class="px-4 py-3 text-sm">
-                                                        <button formaction=@Url.Action("UserProfile/"+item.DoctorID, "Admin") formmethod="post"
+                                                        <button formaction=@Url.Action("UserProfile/"+item.UserID, "Admin") formmethod="post"
                                                                 type="submit" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors
                                                       duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600
                                                       hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                                                             View Profile
                                                         </button>
+                                                    
+                                                        <button formaction=@Url.Action("DeletePatient/"+item.UserID, "Admin") formmethod="post"
+                                                                type="submit" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors
+                                                      duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600
+                                                      hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                                                            Delete
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         }
-                                    }
+                                    @*}*@
                                 </table>
                             </div>
                         </div>

@@ -11,7 +11,6 @@ using System.Web.Mvc;
 
 namespace ClinicManagementSystem.Controllers
 {
-
     enum DoctorAppointmentStatus
     {
         Pending,
@@ -29,23 +28,12 @@ namespace ClinicManagementSystem.Controllers
         {
             if (Request.IsAuthenticated)
             {
-                //Finding & Getting UserName by SessionID
-                var userName = unitOfWork.UserRepository.GetAll().Where(u => u.UserID == int.Parse(Session["UserID"].ToString()));
-                var fullName = new UserModel()
-                {
-                    FirstName = userName.First().FirstName,
-                    LastName = userName.Last().LastName,
-                };
-
-                ViewBag.User = fullName;
 
                 //Appointments Count
                 var totalAppointments = (from appointments in unitOfWork.AppointmentRepository.GetAll()
                                          join doctor in unitOfWork.DoctorRepository.GetAll() on appointments.DoctorID equals doctor.DoctorID
                                          where doctor.UserID == int.Parse(Session["UserID"].ToString()) &&
-                                         appointments.Appointment_DateTime > DateTime.Today &&
-                                         appointments.Status == DoctorAppointmentStatus.Pending.ToString() ||
-                                         appointments.Status == DoctorAppointmentStatus.Accepted.ToString()
+                                         appointments.Status != DoctorAppointmentStatus.Declined.ToString()
                                          select new
                                          {
                                              appointments.Title
@@ -61,11 +49,11 @@ namespace ClinicManagementSystem.Controllers
                                            join user in unitOfWork.UserRepository.GetAll() on patient.UserID equals user.UserID //Used for getting user Name
                                            where appointments.DoctorID == doctor.DoctorID &&
                                            doctor.UserID == int.Parse(Session["UserID"].ToString()) &&
-                                           patient.PatientID == appointments.PatientID &&
+                                           appointments.Appointment_DateTime >= DateTime.Today &&
                                            (
                                            appointments.Status == AppointmentStatus.Pending.ToString()
                                            )
-                                           select new CurrentAppointmentsDoc
+                                           select new CurrentAppointments
                                            {
                                                ApID = appointments.AppointmentID,
                                                FirstName = user.FirstName,
@@ -75,7 +63,7 @@ namespace ClinicManagementSystem.Controllers
                                                PatientHistory = appointments.PatientHistory,
                                                Appointment_DateTime = appointments.Appointment_DateTime.ToString(),
                                            }).ToList();
-                    ViewBag.NewAppointments = newAppointments; // New Appointments that are 'Pending'.
+                    ViewBag.NewAppointments = newAppointments; // New Appointments 'Pending'.
                     return View();
                 }
                 catch (Exception)
@@ -103,8 +91,9 @@ namespace ClinicManagementSystem.Controllers
                                      (
                                      appointments.Status == AppointmentStatus.Accepted.ToString()
                                      )
-                                     select new CurrentAppointmentsDoc
+                                     select new TodayAppointments()
                                      {
+                                         ApID = appointments.AppointmentID,
                                          ApStatus = appointments.Status,
                                          FirstName = user.FirstName,
                                          LastName = user.LastName,
@@ -115,9 +104,11 @@ namespace ClinicManagementSystem.Controllers
                                          Appointment_DateTime = appointments.Appointment_DateTime.ToString()
                                      }).ToList();
 
+            //ViewBag.TodayAppointments = todayAppointments; //Sending today's Appointments to View
 
-            ViewBag.TodayAppointments = todayAppointments; //Sending today's Appointments to View
-            return View();
+
+
+            return View(todayAppointments);
         }
 
         public JsonResult Accepted(int id)
@@ -220,7 +211,6 @@ namespace ClinicManagementSystem.Controllers
 
         public JsonResult Prescription(CreatePrescription prescription)
         {
-
             Prescription prescriptionEntry = new Prescription()
             {
                 AppointmentID = prescription.AppointmentID,
@@ -228,6 +218,9 @@ namespace ClinicManagementSystem.Controllers
                 Usage = prescription.Usage,
                 StartDate = prescription.StartDate,
                 EndDate = prescription.EndDate,
+                IsDeleted = false,
+                CreatedOn = DateTime.Now,
+                CreatedBy = string.Empty ?? Session["FirstName"].ToString() + " " + Session["LastName"]
             };
 
             unitOfWork.PrescriptionRepository.AddNew(prescriptionEntry);

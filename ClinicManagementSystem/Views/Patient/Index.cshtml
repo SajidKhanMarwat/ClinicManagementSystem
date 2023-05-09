@@ -1,5 +1,4 @@
-﻿
-
+﻿@model List<ClinicManagementSystem.Models.GetCurrentAppointments>
 @{
     Layout = null;
 }
@@ -53,6 +52,15 @@
         <!-- Desktop sidebar -->
         <aside class="z-20 hidden w-64 overflow-y-auto dark:bg-gray-800 md:block flex-shrink-0" style="background-color: #E7E9EB">
             <div style="padding-top: 90px;">
+                <br />
+                <div class="py-3 px-0 px-lg-3" style="background-color: rgb(44 62 80); color: white; display: grid; grid-template-columns: auto 1fr; grid-gap: 15px; align-items: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                    </svg>
+                    <b>@Session["FirstName"] &nbsp; @Session["LastName"]</b>
+                </div>
+
                 <ul class="mt-6" style="padding-left: 0px;">
                     <li class="relative px-6 py-3">
                         <span aria-hidden="true"></span>
@@ -112,7 +120,7 @@
         <div class="flex flex-col flex-1 w-full">
             <header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
                 <div class="container flex items-center justify-between h-full px-6 mx-auto text-black-600 dark:text-purple-300">
-                    <h5><strong>@ViewBag.User.FirstName @ViewBag.User.LastName</strong></h5>
+                    @*<h5><strong>@ViewBag.User.FirstName @ViewBag.User.LastName</strong></h5>*@
                     <ul class="flex flex-1">
                         <!-- Profile menu -->
                         <li class="relative">
@@ -146,9 +154,9 @@
             <main class="h-full overflow-y-auto">
                 <div class="container px-6 mx-auto grid">
                     <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-                        Dashboard
+                        
                     </h2>
-
+                    <br />
                     <!-- Cards -->
                     <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
                         <!-- Card -->
@@ -186,7 +194,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <input name="CardNumber" type="text" class="form-control" placeholder="Card Number" />
+                                                        <input name="CardNumber" type="text" class="form-control" placeholder="Master/Visa Card" />
                                                     </div>
                                                     <div class="mb-3">
                                                         <input name="FeesPaid" type="text" class="form-control" placeholder="Enter Fees" />
@@ -210,75 +218,6 @@
                             </div>
                         </div>
 
-                        @*<div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
-                            <div class="card-header"><h3>View Prescriptions</h3></div>
-                            <div class="card-body">
-                                <h5 class="card-title">Check your Prescriptions.</h5>
-                                <hr />
-                                <button class="btn btn-light btn-lg" data-bs-toggle="modal" data-bs-target="#viewAppointments" onclick="ViewPrescriptionBtnClick()">View</button>
-                                <div class="modal fade" id="viewAppointments" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-xl">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <table class="w-6 whitespace-no-wrap table table-hover" id="table1">
-                                                    <thead id="appointmentsTable" class="table-dark">
-                                                        <tr class="text-xs font-semibold tracking-wide text-left uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                                                            <th class="px-4 py-3">Title</th>
-                                                            <th class="px-4 py-3">Medicines</th>
-                                                            <th class="px-4 py-3">Usage</th>
-                                                            <th class="px-4 py-3">FollowUp Session</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>*@
-
-                        <!--Payment Card-->
-                        <!--<div class="card text-white bg-info mb-3" style="max-width: 18rem;">
-                        <div class="card-header"><h3>Add</h3></div>
-                        <div class="card-body">
-                            <h4 class="card-title">Add Payment to your account</h4>
-                            <hr />
-
-                            <button class="btn btn-light btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#addPayment" data-bs-whatever="@@mdo">Add Now</button>
-                            <div class="modal fade" id="addPayment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">-->
-                        @* Add Payment to Account *@
-                        <!--<form id="AddPayment" method='POST'>
-                                                <div class="mb-3">
-                                                    <input name="CardNumber" id="card" type="text" class="form-control" placeholder="xxxx xxxx xxxx Card Number" />
-                                                </div>
-                                                <div class="mb-3">
-                                                    <input name="Amount" id="amount" type="number" class="form-control" placeholder="Amount" />
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    <button onclick="AddPayment()" type="submit" class="btn btn-primary">Add</button>
-                                                </div>
-                                            </form>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>-->
-
-
                     </div>
 
                     <!-- Current Appointment Table -->
@@ -298,9 +237,9 @@
                                     </thead>
 
                                     @* Todays from Database *@
-                                    @if (ViewBag.TodayAppointments != null)
+                                    @if (Model.Count() >= 1)
                                     {
-                                        foreach (var item in ViewBag.TodayAppointments)
+                                        foreach (var item in Model)
                                         {
                                             <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                                                 <tr class="text-gray-700 dark:text-gray-400">
@@ -339,63 +278,6 @@
                             </div>
                         </div>
                     </form>
-                    <hr />
-                    <!-- All Appointments Table -->
-                    @*<h3 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">All Appointments</h3>
-                    <form>
-                        <div class="w-full overflow-hidden rounded-lg shadow-xs">
-                            <div class="w-full overflow-x-auto">
-                                <table class="w-full whitespace-no-wrap">
-                                    <thead>
-                                        <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                                            <th class="px-4 py-3">Title</th>
-                                            <th class="px-4 py-3">Status</th>
-                                            <th class="px-4 py-3">Created On</th>
-                                            <th class="px-4 py-3">DateTime</th>
-                                            <th class="px-4 py-3">Doctor</th>
-                                        </tr>
-                                    </thead>
-                                    @if (ViewBag.AllAppointments != null)
-                                    {
-                                        foreach (var item in ViewBag.AllAppointments)
-                                        {
-                                            <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                                                <tr class="text-gray-700 dark:text-gray-400">
-                                                    <td class="px-4 py-3">
-                                                        <div class="flex items-center text-sm">
-                                                            <div>
-                                                                <p class="font-semibold">
-                                                                    @item.Title
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="px-4 py-3 text-sm">
-                                                        @item.Appointment_Status
-                                                    </td>
-                                                    <td class="px-4 py-3 text-sm">
-                                                        @item.CreatedOn
-                                                    </td>
-                                                    <td class="px-4 py-3 text-sm">
-                                                        @item.Appointment_DateTime
-                                                    </td>
-
-                                                    <td class="px-4 py-3 text-sm">
-                                                        <button formaction=@Url.Action("UserProfile/"+item.DoctorID, "Admin") formmethod="post"
-                                                                type="submit" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors
-                                                                  duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600
-                                                                  hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                                                            View Profile
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        }
-                                    }
-                                </table>
-                            </div>
-                        </div>
-                    </form>*@
                 </div>
             </main>
         </div>
@@ -453,6 +335,9 @@
             type: 'POST',
             success: function (appointment){
                 alert("Successfully Created New Appointment");
+            },
+            error: function (appointment) {
+                alert("Failed to create appointment");
             }
         });
     }

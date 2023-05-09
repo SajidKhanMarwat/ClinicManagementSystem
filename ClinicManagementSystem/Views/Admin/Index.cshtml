@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<ClinicManagementSystem.Models.UserModel>
+@{
     Layout = null;
 }
 
@@ -51,6 +52,16 @@
         <!-- Desktop sidebar -->
         <aside class="z-20 hidden w-64 overflow-y-auto dark:bg-gray-800 md:block flex-shrink-0" style="background-color: #E7E9EB">
             <div style="padding-top: 90px;">
+
+                <div class="py-3 px-0 px-lg-3" style="background-color: rgb(44 62 80); color: white; display: grid; grid-template-columns: auto 1fr; grid-gap: 15px; align-items: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                    </svg>
+                    <b>@Session["FirstName"] &nbsp; @Session["LastName"]</b>
+                </div>
+
+
                 <ul class="mt-6" style="padding-left: 0px;">
                     <li class="relative px-6 py-3">
                         <span aria-hidden="true"></span>
@@ -139,16 +150,16 @@
             <main class="h-full overflow-y-auto">
                 <div class="container px-6 mx-auto grid">
                     <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-                        Dashboard
                     </h2>
-
+                    <br />
+                    <br />
                     <!-- Cards -->
                     <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
                         <!-- Card -->
                         <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                             <div>
                                 <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                                    Total Patients
+                                    Active Patients
                                 </p>
                                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                                     @ViewBag.TotalPatients
@@ -159,7 +170,7 @@
                         <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                             <div>
                                 <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                                    Total Doctors
+                                    Active Doctors
                                 </p>
                                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                                     @ViewBag.totalDoctors
@@ -170,7 +181,7 @@
                         <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                             <div>
                                 <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                                    Total Appointments
+                                    All Appointments
                                 </p>
                                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                                     @ViewBag.TotalAppointments
@@ -188,17 +199,20 @@
                                 <table class="w-full whitespace-no-wrap">
                                     <thead>
                                         <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                                            <th class="px-4 py-3">Name</th>
-                                            <th class="px-4 py-3">Role</th>
+                                            <th class="px-4 py-3">FullName</th>
+                                            <th class="px-4 py-3">Email</th>
+                                            <th class="px-4 py-3">Phone</th>
+                                            <th class="px-4 py-3">Gender</th>
+                                            <th class="px-4 py-3">DOB</th>
                                             <th class="px-4 py-3">Joining Date</th>
-                                            <th class="px-4 py-3">Profile</th>
+                                            <th class="px-4 py-3">User Profile</th>
                                         </tr>
                                     </thead>
 
                                     <!-- All Users List from Database -->
 
                                     <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                                        @foreach (var item in ViewBag.AllUsers)
+                                        @foreach (var item in Model)
                                         {
                                             <tr class="text-gray-700 dark:text-gray-400">
                                                 <td class="px-4 py-3">
@@ -235,7 +249,14 @@
                                                 </td>
 
                                                 <td class="px-4 py-3 text-sm">
-                                                    <button id="btnUserID" formaction=@Url.Action("Index"+"/"+item.UserID) formmethod="post"
+                                                    @*<button id="btnUserID" formaction=@Url.Action("Index"+"/"+item.UserID) formmethod="post"
+                type="submit"
+                class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors
+        duration-150 bg-purple-600 border border-transparent rounded-lg
+        active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+            Delete
+        </button>*@
+                                                    <button id="btnUserID" formaction=@Url.Action("DeleteDoctor"+"/"+item.UserID) formmethod="post"
                                                             type="submit"
                                                             class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors
                                                     duration-150 bg-purple-600 border border-transparent rounded-lg

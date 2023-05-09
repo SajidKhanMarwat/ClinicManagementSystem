@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<ClinicManagementSystem.Models.TodayAppointments>
+@{
     Layout = null;
 }
 
@@ -51,6 +52,15 @@
         <!-- Desktop sidebar -->
         <aside class="z-20 hidden w-64 overflow-y-auto dark:bg-gray-800 md:block flex-shrink-0" style="background-color: #E7E9EB">
             <div style="padding-top: 90px;">
+                <br />
+                <div class="py-3 px-0 px-lg-3" style="background-color: rgb(44 62 80); color: white; display: grid; grid-template-columns: auto 1fr; grid-gap: 15px; align-items: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                    </svg>
+                    <b>@Session["FirstName"] &nbsp; @Session["LastName"]</b>
+                </div>
+
                 <ul class="mt-6" style="padding-left: 0px;">
                     <li class="relative px-6 py-3">
                         <span aria-hidden="true"></span>
@@ -126,10 +136,10 @@
             </header>
             <main class="h-full overflow-y-auto">
                 <div class="container px-6 mx-auto grid">
-
+                    <br />
                     @*Ongoing Appointments Table*@
                     <h3 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">Today's Appointments</h3>
-                        @foreach (var appointment in ViewBag.TodayAppointments)
+                        @foreach (var appointment in Model)
                         {
                             <form>
                                 <div class="w-full overflow-hidden rounded-lg shadow-xs">
@@ -215,7 +225,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
+                                                
                                                 <div class="mb-3">
                                                     <label for="date" class="col-1 col-form-label text-black">StartDate</label>
                                                     <input name="StartDate" id="startDate" class="form-control" type="date" />
@@ -244,17 +254,30 @@
 </html>
 
 <script>
+
+    // When prescription is created, Appointment will be completed
+    function Completed(appointmentID) {
+        var id = appointmentID;
+        debugger
+        $.ajax(
+            {
+                url: '/Doctor/Completed/' + id,
+                data: { apId: id },
+                type: 'POST',
+                success: function (result) {
+                    alert("Appointment Completed Successfully")
+                }
+            });
+    }
+
     //Prescription Create
     function CreatePrescription() {
-        var formData = $('#CreatePrescription').serialize(); // User Input Date
-        var appointmentID = $('#AppointmentID').val();
-        var inputDate = new Date($('#endDate').val()); // Get current Date
-        debugger
+        var formData = $('#CreatePrescription').serialize();
+        var appointmentID = $('#AppointmentId').val();
+        var inputEndDate = new Date($('#endDate').val());
         var currentDate = new Date();
-        if (currentDate <= inputDate) {
-            alert("Invalid Date")
-        }
-        else {
+        if (inputEndDate > currentDate)
+        {
             $.ajax(
                 {
                     type: 'POST',
@@ -262,19 +285,45 @@
                     data: formData,
                     success: function (response) {
                         Completed(appointmentID);
+                    },
+                    error: function (response) {
+                        alert("Failed to create prescription")
                     }
                 });
+        }
+        else {
+            alert("Invalid Date")
         }
     }
 
     // Add new input field
     $(document).on('click', '.addInputGroup', function () {
-        var inputField = '<div class="input-group mt-2"><input type="text" class="form-control" name="Medicines" placeholder="Enter a value">&nbsp<input type="text" class="form-control" name="Usage" placeholder="Enter a value"> <div class="input-group-append"><button class="btn btn-danger removeInputGroup" type="button"><i>-</i></button></div></div>';
+        var inputField = '<div class="input-group mt-2"><input type="text" class="form-control" name="Medicines" placeholder="Medicine">&nbsp<input type="text" class="form-control" name="Usage" placeholder="Enter a value"> <div class="input-group-append"><button class="btn btn-danger removeInputGroup" type="button"><i>-</i></button></div></div>';
         $('#inputFields').append(inputField);
+
+        //// Get all the medicine and usage input fields
+        //var medicines = $('[name="Medicines"]');
+        //var usages = $('[name="Usage"]');
+
+        //// Create an empty array to hold the data
+        //var data = [];
+
+        //// Iterate over the input fields and collect their values
+        //for (var i = 0; i < medicines.length; i++) {
+        //    var medicine = $(medicines[i]).val();
+        //    var usage = $(usages[i]).val();
+
+        //    // Add the values to the data array
+        //    data.push({ medicine: medicine, usage: usage });
+        //}
+
     });
 
     // Remove input field
     $(document).on('click', '.removeInputGroup', function () {
         $(this).parent().parent().remove();
     });
+
+
+
 </script>

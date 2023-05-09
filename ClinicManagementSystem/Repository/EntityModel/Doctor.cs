@@ -34,8 +34,8 @@ namespace ClinicManagementSystem.Repository.EntityModel
         public string UpdatedBy { get; set; }
         public Nullable<int> UserID { get; set; }
     
-        public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Appointment> Appointments { get; set; }
+        public virtual User User { get; set; }
     }
 }
